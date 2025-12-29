@@ -7,6 +7,10 @@ const ExperienceSection = styled.section`
   padding: 5rem 5%;
   max-width: 1400px;
   margin: 0 auto;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 3rem 1rem; /* Reduce horizontal padding on mobile */
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -47,12 +51,11 @@ const ExperienceImage = styled.div`
   overflow: hidden;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   background: #f0f0f0;
-  min-height: 400px;
+  width: 100%;
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto; /* Changed from height: 100% */
     display: block;
   }
 `;

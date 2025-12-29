@@ -6,7 +6,6 @@ import { theme } from "@/lib/theme";
 
 const BookingSection = styled.section`
   padding: 5rem 5%;
-  max-width: 1400px;
   margin: 0 auto;
   background: ${theme.gradients.dark};
   color: #fff;
@@ -57,12 +56,16 @@ const StyledForm = styled.form`
   text-align: left;
 
   @media (max-width: ${theme.breakpoints.mobile}) {
-    padding: 2rem;
+    padding: 1.5rem; /* Reduced from 2rem */
   }
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 1.5rem;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    margin-bottom: 1rem; /* Tighter spacing between fields */
+  }
 
   label {
     display: block;
@@ -70,6 +73,11 @@ const FormGroup = styled.div`
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-size: 0.95rem;
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      font-size: 0.9rem; /* Slightly smaller labels */
+      margin-bottom: 0.4rem;
+    }
   }
 
   input,
@@ -84,6 +92,11 @@ const FormGroup = styled.div`
     background: #fff;
     color: ${theme.colors.text.primary};
     font-family: inherit;
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      padding: 0.75rem; /* Slightly less padding */
+      font-size: 0.95rem;
+    }
 
     &:focus {
       outline: none;
@@ -104,6 +117,7 @@ const FormRow = styled.div`
 
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
+    gap: 0; /* Remove gap since FormGroup already has margin-bottom */
   }
 `;
 
@@ -120,7 +134,7 @@ const SubmitButton = styled.button`
   transition: all 0.3s;
   box-shadow: ${theme.shadows.gold};
 
-  &:hover {
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: ${theme.shadows.goldHover};
   }
@@ -138,6 +152,65 @@ const FormNote = styled.p`
   margin-top: 1rem;
 `;
 
+const StatusMessage = styled.div`
+  text-align: center;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+
+  &.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+    border: 2px solid #16a34a;
+  }
+
+  &.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 2px solid #dc2626;
+  }
+
+  &.sending {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+    border: 2px solid #2563eb;
+  }
+`;
+
+const SuccessContainer = styled.div`
+  text-align: center;
+  padding: 3rem;
+
+  h3 {
+    font-size: 2rem;
+    color: #16a34a;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  button {
+    padding: 1rem 2rem;
+    background: ${theme.gradients.primary};
+    color: ${theme.colors.text.primary};
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: ${theme.shadows.goldHover};
+    }
+  }
+`;
+
 export default function BookingForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -149,18 +222,105 @@ export default function BookingForm() {
     message: "",
   });
 
+  const [status, setStatus] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Booking request:", formData);
-    alert(
-      "Thank you for your booking request! Captain John will contact you within 24 hours to confirm your trip."
-    );
+    setIsSubmitting(true);
+    setStatus("sending");
+
+    const formDataToSend = new FormData();
+
+    // Add Web3Forms access key
+    formDataToSend.append("access_key", "5427bb33-e44d-4f98-8340-eea6926598fe");
+
+    // Add all form fields
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("date", formData.date);
+    formDataToSend.append("tripType", formData.tripType);
+    formDataToSend.append("guests", formData.guests);
+    formDataToSend.append("message", formData.message);
+
+    // Optional: Customize the email subject
+    formDataToSend.append("subject", "New Booking Request - Hooked on Tails");
+
+    // Optional: Add custom redirect after success (if you want)
+    // formDataToSend.append("redirect", "https://hookedontails.com/thank-you");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataToSend,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus("success");
+        setShowSuccess(true);
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          date: "",
+          tripType: "",
+          guests: "",
+          message: "",
+        });
+      } else {
+        setStatus("error");
+        console.error("Form submission error:", data);
+      }
+    } catch (error) {
+      setStatus("error");
+      console.error("Form submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const resetForm = () => {
+    setShowSuccess(false);
+    setStatus("");
+  };
+
+  if (showSuccess) {
+    return (
+      <BookingSection id="booking">
+        <SectionTitle>🎣 Booking Request Sent!</SectionTitle>
+        <Subtitle>
+          Thank you for your booking request! Captain John will contact you
+          within 24 hours to confirm your trip details and arrange your deposit.
+        </Subtitle>
+        <Subtitle style={{ fontSize: "1rem", marginTop: "1rem" }}>
+          Check your email for a confirmation. We look forward to fishing with
+          you!
+        </Subtitle>
+        <SubmitButton
+          onClick={resetForm}
+          style={{
+            marginTop: "2rem",
+            maxWidth: "400px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            display: "block",
+          }}
+        >
+          Submit Another Booking
+        </SubmitButton>
+      </BookingSection>
+    );
+  }
 
   return (
     <BookingSection id="booking">
@@ -192,19 +352,18 @@ export default function BookingForm() {
               id="email"
               name="email"
               required
-              placeholder="john@example.com"
+              placeholder="john.doe@example.com"
               value={formData.email}
               onChange={handleChange}
             />
           </FormGroup>
 
           <FormGroup>
-            <label htmlFor="phone">Phone Number *</label>
+            <label htmlFor="phone">Phone Number</label>
             <input
               type="tel"
               id="phone"
               name="phone"
-              required
               placeholder="(555) 123-4567"
               value={formData.phone}
               onChange={handleChange}
@@ -213,23 +372,21 @@ export default function BookingForm() {
 
           <FormRow>
             <FormGroup>
-              <label htmlFor="date">Preferred Date *</label>
+              <label htmlFor="date">Preferred Date</label>
               <input
                 type="date"
                 id="date"
                 name="date"
-                required
                 value={formData.date}
                 onChange={handleChange}
               />
             </FormGroup>
 
             <FormGroup>
-              <label htmlFor="tripType">Trip Type *</label>
+              <label htmlFor="tripType">Trip Type</label>
               <select
                 id="tripType"
                 name="tripType"
-                required
                 value={formData.tripType}
                 onChange={handleChange}
               >
@@ -248,11 +405,10 @@ export default function BookingForm() {
           </FormRow>
 
           <FormGroup>
-            <label htmlFor="guests">Number of People *</label>
+            <label htmlFor="guests">Number of People</label>
             <select
               id="guests"
               name="guests"
-              required
               value={formData.guests}
               onChange={handleChange}
             >
@@ -277,8 +433,18 @@ export default function BookingForm() {
             />
           </FormGroup>
 
-          <SubmitButton type="submit">Send Booking Request</SubmitButton>
-          <FormNote>* Deposit required to hold your date</FormNote>
+          {status && status !== "sending" && (
+            <StatusMessage className={status}>
+              {status === "success"
+                ? "✓ Booking request sent successfully!"
+                : "✗ Something went wrong. Please try again or call us directly."}
+            </StatusMessage>
+          )}
+
+          <SubmitButton type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Send Booking Request"}
+          </SubmitButton>
+          <FormNote>Note - Deposit required to hold your date</FormNote>
         </StyledForm>
       </FormContainer>
     </BookingSection>

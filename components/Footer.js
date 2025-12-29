@@ -101,21 +101,18 @@ export default function Footer() {
             Experience the best of Louisiana fishing with Captain John Styron -
             both day and night adventures available.
           </p>
-          <p style={{ marginTop: "1rem" }}>
+          {/* <p style={{ marginTop: "1rem" }}>
             <strong>Licensed & Insured</strong>
-          </p>
+          </p> */}
         </FooterSection>
 
         <FooterSection>
           <h3>Contact Information</h3>
-          <ContactLink href="tel:+15045551234">
-            <span>(504) 555-1234</span>
+          <ContactLink href="tel:+15046280232">
+            <span>504-628-0232</span>
           </ContactLink>
-          <ContactLink href="mailto:captain@hookedontails.com">
-            <span>captain@hookedontails.com</span>
-          </ContactLink>
-          <ContactLink href="https://maps.google.com" target="_blank">
-            <span>Patriot Lodge, New Orleans, LA</span>
+          <ContactLink href="mailto:johnstyron62@gmail.com">
+            <span>johnstyron62@gmail.com</span>
           </ContactLink>
         </FooterSection>
 
@@ -179,9 +176,9 @@ export default function Footer() {
       <FooterBottom>
         <p>&copy; 2025 Hooked on Tails. All rights reserved.</p>
         <p>Captain John Styron | New Orleans, Louisiana</p>
-        <p style={{ fontSize: "0.9rem", marginTop: "1rem" }}>
+        {/* <p style={{ fontSize: "0.9rem", marginTop: "1rem" }}>
           Louisiana Charter Fishing License #12345
-        </p>
+        </p> */}
       </FooterBottom>
     </FooterWrapper>
   );
