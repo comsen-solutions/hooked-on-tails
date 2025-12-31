@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
 
@@ -68,7 +69,30 @@ const InstagramButton = styled.a`
   }
 `;
 
+const BeholdWrap = styled.div`
+  display: block;
+  margin: 0 auto;
+`;
+
 export default function Gallery() {
+  useEffect(() => {
+    // Load Behold widget script once (avoids JSX <script> + ESLint "expression expected")
+    const existing = document.querySelector(
+      'script[src="https://w.behold.so/widget.js"]'
+    );
+    if (existing) return;
+
+    const s = document.createElement("script");
+    s.type = "module";
+    s.src = "https://w.behold.so/widget.js";
+    document.head.appendChild(s);
+
+    return () => {
+      // Optional cleanup if you want to remove it on unmount:
+      // s.remove();
+    };
+  }, []);
+
   return (
     <GallerySection>
       <SectionTitle>See The Action</SectionTitle>
@@ -78,17 +102,11 @@ export default function Gallery() {
           marshes!
         </Subtitle>
 
-        {/* Paste Behold embed code here */}
-        <iframe
-          src="https://behold.so/feed/YOUR-FEED-ID"
-          style={{
-            border: "none",
-            width: "100%",
-            height: "800px",
-            borderRadius: "20px",
-            boxShadow: "0 10px 60px rgba(0, 0, 0, 0.2)",
-          }}
-        />
+        {/* Behold Instagram widget */}
+        <BeholdWrap>
+          {/* eslint-disable-next-line react/no-unknown-property */}
+          <behold-widget feed-id="vNtqoVN5GDuaiwpHDx2d"></behold-widget>
+        </BeholdWrap>
 
         <InstagramButton
           href="https://instagram.com/hookedontails"

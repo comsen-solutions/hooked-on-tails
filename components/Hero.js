@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
 
@@ -89,17 +89,42 @@ const ScrollIndicator = styled.div`
 
 export default function Hero() {
   const videoRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if viewport is mobile-sized
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Check on mount
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75; // Half speed
+      videoRef.current.playbackRate = 0.75;
+      // Reload the video when isMobile changes
+      videoRef.current.load();
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <HeroSection>
       <VideoBackground ref={videoRef} autoPlay loop muted playsInline>
-        <source src="/images/hero-video.mp4" type="video/mp4" />
+        <source
+          src={
+            isMobile
+              ? "/images/hero-video-mobile.mp4"
+              : "/images/hero-video.mp4"
+          }
+          type="video/mp4"
+        />
       </VideoBackground>
       <VideoOverlay />
       <HeroContent>
