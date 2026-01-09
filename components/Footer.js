@@ -132,6 +132,7 @@ export default function Footer() {
           <h3>Our Experiences</h3>
           <Link href="/rod-and-reel">Rod & Reel Fishing</Link>
           <Link href="/bowfishing">Night Bowfishing</Link>
+          <Link href="/rod-and-reel">Red Snapper Fishing</Link>
         </FooterSection>
 
         <FooterSection>
