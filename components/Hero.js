@@ -57,11 +57,22 @@ const HeroContent = styled.div`
   h1 {
     font-size: 4rem;
     color: ${theme.colors.text.white};
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     text-shadow: 2px 2px 20px rgba(204, 255, 0, 0.5);
 
     @media (max-width: ${theme.breakpoints.mobile}) {
       font-size: 2.5rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.7rem;
+    color: ${theme.colors.text.white};
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 20px rgba(204, 255, 0, 0.5);
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      font-size: 1.7rem;
     }
   }
 
@@ -129,6 +140,7 @@ export default function Hero() {
       <VideoOverlay />
       <HeroContent>
         <h1>Hooked on Tails</h1>
+        <h2>Bowfishing and Rod & Reel Fishing Charters</h2>
         <p>
           Experience the best of Louisiana fishing with Captain John Styron.
           Choose your adventure - daytime rod & reel or nighttime bowfishing.
