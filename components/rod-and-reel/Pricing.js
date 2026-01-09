@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import styled from 'styled-components'
-import { theme } from '@/lib/theme'
+import styled from "styled-components";
+import { theme } from "@/lib/theme";
 
 const PricingSection = styled.section`
   padding: 5rem 5%;
@@ -9,7 +9,7 @@ const PricingSection = styled.section`
   margin: 0 auto;
   background: ${theme.gradients.dark};
   color: #fff;
-`
+`;
 
 const SectionTitle = styled.h2`
   font-size: 3rem;
@@ -19,7 +19,7 @@ const SectionTitle = styled.h2`
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 100px;
     height: 4px;
@@ -31,7 +31,7 @@ const SectionTitle = styled.h2`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 2rem;
   }
-`
+`;
 
 const PricingCards = styled.div`
   display: grid;
@@ -39,7 +39,7 @@ const PricingCards = styled.div`
   gap: 2rem;
   max-width: 900px;
   margin: 0 auto;
-`
+`;
 
 const PricingCard = styled.div`
   background: rgba(255, 215, 0, 0.05);
@@ -77,13 +77,14 @@ const PricingCard = styled.div`
       }
     }
   }
-`
+`;
 
 const TripBadge = styled.div`
   display: inline-block;
-  background: ${props => props.$variant === 'inshore' 
-    ? 'linear-gradient(135deg, #ffd700, #ffb800)'
-    : 'linear-gradient(135deg, #ffb800, #d4a600)'};
+  background: ${(props) =>
+    props.$variant === "inshore"
+      ? "linear-gradient(135deg, #ffd700, #ffb800)"
+      : "linear-gradient(135deg, #ffb800, #d4a600)"};
   color: ${theme.colors.text.primary};
   padding: 0.4rem 1.2rem;
   border-radius: 20px;
@@ -92,37 +93,37 @@ const TripBadge = styled.div`
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-`
+`;
 
 const TripTagline = styled.p`
   color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   margin-bottom: 1rem;
   font-style: italic;
-`
+`;
 
 const Price = styled.div`
   font-size: 2.5rem;
   font-weight: bold;
   margin: 1rem 0;
   color: ${theme.colors.primary.main};
-`
+`;
 
 const AdditionalCost = styled.p`
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.95rem;
   margin-bottom: 1rem;
-`
+`;
 
 const Note = styled.div`
-  text-align: center;
+  text-align: left;
   margin-top: 3rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
 
   p {
     margin: 0.5rem 0;
   }
-`
+`;
 
 export default function Pricing() {
   return (
@@ -134,7 +135,10 @@ export default function Pricing() {
           <h3>Redfish & Trout</h3>
           <TripTagline>Fish the beautiful Louisiana marshes</TripTagline>
           <Price>
-            $300<span style={{ fontSize: '1rem', fontWeight: 'normal' }}>/person</span>
+            $300
+            <span style={{ fontSize: "1rem", fontWeight: "normal" }}>
+              /person
+            </span>
           </Price>
           <ul>
             <li>Target redfish & speckled trout</li>
@@ -151,7 +155,10 @@ export default function Pricing() {
           <h3>Red Snapper</h3>
           <TripTagline>Head out to deeper waters</TripTagline>
           <Price>
-            $1,600<span style={{ fontSize: '1rem', fontWeight: 'normal' }}>/4 people</span>
+            $1,600
+            <span style={{ fontSize: "1rem", fontWeight: "normal" }}>
+              /4 people
+            </span>
           </Price>
           <AdditionalCost>+$200 per additional person</AdditionalCost>
           <ul>
@@ -166,8 +173,21 @@ export default function Pricing() {
       </PricingCards>
 
       <Note>
-        <p>Deposit required to hold your date</p>
+        <p>- Deposit required to hold your date</p>
+        <p style={{ marginTop: "1rem" }}>
+          - Can accommodate larger groups with 3-4 boats
+        </p>
+        <p>
+          - Cancellations made less than 7 days prior to your scheduled date
+          will result in forfeiture of your deposit. Cancellations made within
+          24 hours of your scheduled trip will be charged the full trip amount.
+        </p>
+        <p>
+          - If captain cancels the trip due to weather or other unforeseen
+          circumstances, a full refund of the deposit will be given or the trip
+          will be rescheduled at no additional cost.
+        </p>
       </Note>
     </PricingSection>
-  )
+  );
 }

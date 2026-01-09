@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import styled from 'styled-components'
-import { theme } from '@/lib/theme'
+import styled from "styled-components";
+import { theme } from "@/lib/theme";
 
 const PricingSection = styled.section`
   padding: 5rem 5%;
@@ -9,7 +9,7 @@ const PricingSection = styled.section`
   margin: 0 auto;
   background: ${theme.gradients.dark};
   color: #fff;
-`
+`;
 
 const SectionTitle = styled.h2`
   font-size: 3rem;
@@ -19,7 +19,7 @@ const SectionTitle = styled.h2`
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 100px;
     height: 4px;
@@ -31,13 +31,13 @@ const SectionTitle = styled.h2`
   @media (max-width: ${theme.breakpoints.mobile}) {
     font-size: 2rem;
   }
-`
+`;
 
 const PricingCards = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-`
+`;
 
 const PricingCard = styled.div`
   background: rgba(255, 215, 0, 0.05);
@@ -75,24 +75,24 @@ const PricingCard = styled.div`
       }
     }
   }
-`
+`;
 
 const Price = styled.div`
   font-size: 2.5rem;
   font-weight: bold;
   margin: 1rem 0;
   color: ${theme.colors.primary.main};
-`
+`;
 
 const Note = styled.div`
-  text-align: center;
+  text-align: left;
   margin-top: 2rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
 
   p {
     margin: 0.5rem 0;
   }
-`
+`;
 
 export default function Pricing() {
   return (
@@ -114,7 +114,7 @@ export default function Pricing() {
         <PricingCard>
           <h3>Trip Duration</h3>
           <Price>
-            4-4.5<span style={{ fontSize: '1.5rem' }}>hrs</span>
+            4-4.5<span style={{ fontSize: "1.5rem" }}>hrs</span>
           </Price>
           <ul>
             <li>Evening departure</li>
@@ -127,7 +127,7 @@ export default function Pricing() {
 
         <PricingCard>
           <h3>What to Bring</h3>
-          <Price style={{ fontSize: '2rem' }}>Checklist</Price>
+          <Price style={{ fontSize: "2rem" }}>Checklist</Price>
           <ul>
             <li>$20 / 3-day charter pass</li>
             <li>Your own food & drinks</li>
@@ -139,11 +139,21 @@ export default function Pricing() {
       </PricingCards>
 
       <Note>
-        <p>$250 deposit required to hold your date</p>
-        <p style={{ marginTop: '1rem' }}>
-          Can accommodate larger groups with 3-4 boats
+        <p>- $250 deposit required to hold your date</p>
+        <p style={{ marginTop: "1rem" }}>
+          - Can accommodate larger groups with 3-4 boats
+        </p>
+        <p>
+          - Cancellations made less than 7 days prior to your scheduled date
+          will result in forfeiture of your deposit. Cancellations made within
+          24 hours of your scheduled trip will be charged the full trip amount.
+        </p>
+        <p>
+          - If captain cancels the trip due to weather or other unforeseen
+          circumstances, a full refund of the deposit will be given or the trip
+          will be rescheduled at no additional cost.
         </p>
       </Note>
     </PricingSection>
-  )
+  );
 }
