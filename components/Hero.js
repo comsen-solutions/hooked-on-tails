@@ -139,11 +139,12 @@ export default function Hero() {
       </VideoBackground>
       <VideoOverlay />
       <HeroContent>
-        <h1>Hooked on Tails</h1>
-        <h2>Bowfishing and Rod & Reel Fishing Charters</h2>
+        <h1>New Orleans Fishing & Bowfishing Charters</h1>
+        <h2>Hooked on Tails — Captain John Styron</h2>
         <p>
-          Experience the best of Louisiana fishing with Captain John Styron.
-          Choose your adventure - daytime rod & reel or nighttime bowfishing.
+          Experience the best of Louisiana fishing. Choose your adventure —
+          daytime rod & reel for redfish and speckled trout, or nighttime
+          bowfishing in the marshes near New Orleans.
         </p>
       </HeroContent>
       <ScrollIndicator>&#8595;</ScrollIndicator>

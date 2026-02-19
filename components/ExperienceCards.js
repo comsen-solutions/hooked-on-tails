@@ -178,7 +178,7 @@ export default function ExperienceCards() {
                 <FeatureTag>Family Friendly</FeatureTag>
               </CardFeatures>
               <CardButton href="/rod-and-reel" $variant="day">
-                Explore Fishing Trips
+                New Orleans Fishing Charters
               </CardButton>
             </CardContent>
           </Card>
@@ -199,7 +199,7 @@ export default function ExperienceCards() {
                 <FeatureTag>No Experience Needed</FeatureTag>
               </CardFeatures>
               <CardButton href="/bowfishing" $variant="night">
-                Explore Bowfishing Trips
+                New Orleans Bowfishing Charters
               </CardButton>
             </CardContent>
           </Card>
