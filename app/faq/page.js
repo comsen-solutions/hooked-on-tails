@@ -1,3 +1,4 @@
+import { FAQSchema } from "@/components/StructuredData";
 import FAQ from "@/components/faq/FAQ";
 
 export const metadata = {
@@ -8,8 +9,11 @@ export const metadata = {
 
 export default function FAQPage() {
   return (
-    <main>
-      <FAQ />
-    </main>
+    <>
+      <FAQSchema />
+      <main>
+        <FAQ />
+      </main>
+    </>
   );
 }

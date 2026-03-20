@@ -1,3 +1,4 @@
+import { RodReelServiceSchema } from "@/components/StructuredData";
 import RodReelHero from "@/components/rod-and-reel/RodReelHero";
 import Experience from "@/components/rod-and-reel/Experience";
 import BoatSection from "@/components/rod-and-reel/BoatSection";
@@ -22,6 +23,7 @@ export const metadata = {
 export default function RodAndReelPage() {
   return (
     <>
+      <RodReelServiceSchema />
       <FloatingBookButton />
       <main>
         <RodReelHero />
