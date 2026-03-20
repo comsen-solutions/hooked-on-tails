@@ -1,3 +1,4 @@
+import { BowfishingServiceSchema } from "@/components/StructuredData";
 import BowfishingHero from "@/components/bowfishing/BowfishingHero";
 import Experience from "@/components/bowfishing/Experience";
 import BoatSection from "@/components/bowfishing/BoatSection";
@@ -8,14 +9,23 @@ import Saints from "@/components/bowfishing/Saints";
 import FloatingBookButton from "@/components/FloatingBookButton";
 
 export const metadata = {
-  title: "Night Bowfishing | Hooked on Tails",
+  title: "New Orleans Bowfishing Charters | Hooked on Tails",
   description:
-    "Experience the Louisiana marshes like never before. Hunt alligator gar, redfish, and more under the stars with an expert guide.",
+    "Book a New Orleans bowfishing charter with Captain John Styron. Nighttime bowfishing adventures in the Louisiana marshes — redfish, alligator gar, drum & more. All equipment provided. $250/person.",
+  alternates: {
+    canonical: '/bowfishing',
+  },
+  openGraph: {
+    title: 'New Orleans Bowfishing Charters | Hooked on Tails',
+    description: 'Nighttime bowfishing adventures in the Louisiana marshes near New Orleans. Redfish, alligator gar, drum & more with Captain John Styron.',
+    url: 'https://hookedontailsbowfishing.com/bowfishing',
+  },
 };
 
 export default function BowfishingPage() {
   return (
     <>
+      <BowfishingServiceSchema />
       <FloatingBookButton />
       <main>
         <BowfishingHero />

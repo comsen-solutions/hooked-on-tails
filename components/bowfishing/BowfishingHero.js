@@ -86,10 +86,11 @@ export default function BowfishingHero() {
   return (
     <HeroSection id="home">
       <HeroContent>
-        <h1>Night Bowfishing Adventures</h1>
+        <h1>New Orleans Bowfishing Charters</h1>
         <p>
-          Experience the Louisiana marshes like never before. Hunt alligator
-          gar, redfish, and more under the stars with an expert guide.
+          Experience nighttime bowfishing in the Louisiana marshes near New
+          Orleans. Hunt alligator gar, redfish, drum, and more under the
+          stars with Captain John Styron.
         </p>
         {/* <CtaButton href="#contact">Book Your Trip</CtaButton> */}
       </HeroContent>
