@@ -5,6 +5,14 @@ export const metadata = {
   title: "FAQ | Hooked on Tails",
   description:
     "Frequently asked questions about Louisiana fishing charters with Captain John Styron.",
+  alternates: {
+    canonical: '/faq',
+  },
+  openGraph: {
+    title: 'FAQ | Hooked on Tails',
+    description: 'Frequently asked questions about Louisiana fishing charters with Captain John Styron.',
+    url: 'https://hookedontailsbowfishing.com/faq',
+  },
 };
 
 export default function FAQPage() {
