@@ -1,3 +1,4 @@
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import BookingForm from "@/components/contact/BookingForm";
 
 export const metadata = {
@@ -16,8 +17,11 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <main>
-      <BookingForm />
-    </main>
+    <>
+      <BreadcrumbSchema items={[{ name: "Book Now", url: "https://hookedontailsbowfishing.com/contact" }]} />
+      <main>
+        <BookingForm />
+      </main>
+    </>
   );
 }

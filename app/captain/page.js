@@ -1,3 +1,4 @@
+import { CaptainPersonSchema, BreadcrumbSchema } from "@/components/StructuredData";
 import Captain from "@/components/captain/Captain";
 
 export const metadata = {
@@ -16,8 +17,12 @@ export const metadata = {
 
 export default function CaptainPage() {
   return (
-    <main>
-      <Captain />
-    </main>
+    <>
+      <CaptainPersonSchema />
+      <BreadcrumbSchema items={[{ name: "Meet Captain John", url: "https://hookedontailsbowfishing.com/captain" }]} />
+      <main>
+        <Captain />
+      </main>
+    </>
   );
 }
