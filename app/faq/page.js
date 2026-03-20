@@ -1,4 +1,4 @@
-import { FAQSchema } from "@/components/StructuredData";
+import { FAQSchema, BreadcrumbSchema } from "@/components/StructuredData";
 import FAQ from "@/components/faq/FAQ";
 
 export const metadata = {
@@ -11,6 +11,7 @@ export default function FAQPage() {
   return (
     <>
       <FAQSchema />
+      <BreadcrumbSchema items={[{ name: "FAQ", url: "https://hookedontailsbowfishing.com/faq" }]} />
       <main>
         <FAQ />
       </main>

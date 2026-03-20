@@ -1,4 +1,4 @@
-import { BowfishingServiceSchema } from "@/components/StructuredData";
+import { BowfishingServiceSchema, BreadcrumbSchema } from "@/components/StructuredData";
 import BowfishingHero from "@/components/bowfishing/BowfishingHero";
 import Experience from "@/components/bowfishing/Experience";
 import BoatSection from "@/components/bowfishing/BoatSection";
@@ -26,6 +26,7 @@ export default function BowfishingPage() {
   return (
     <>
       <BowfishingServiceSchema />
+      <BreadcrumbSchema items={[{ name: "Nighttime Bowfishing Charter", url: "https://hookedontailsbowfishing.com/bowfishing" }]} />
       <FloatingBookButton />
       <main>
         <BowfishingHero />

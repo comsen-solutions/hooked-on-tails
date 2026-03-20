@@ -6,6 +6,7 @@ export function LocalBusinessSchema() {
     "@type": "LocalBusiness",
     "@id": "https://hookedontailsbowfishing.com/#business",
     name: "Hooked on Tails Bowfishing & Fishing Charters",
+    alternateName: "Hooked on Tails",
     description:
       "New Orleans bowfishing and rod & reel fishing charters with Captain John Styron. Nighttime bowfishing and daytime fishing adventures in the Louisiana marshes.",
     url: "https://hookedontailsbowfishing.com",
@@ -15,19 +16,29 @@ export function LocalBusinessSchema() {
     priceRange: "$250 - $1600",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "New Orleans",
+      addressLocality: "Hopedale",
       addressRegion: "LA",
+      postalCode: "70085",
       addressCountry: "US",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 29.9511,
-      longitude: -90.0715,
+      latitude: 29.8585,
+      longitude: -89.8387,
     },
     areaServed: [
       { "@type": "City", name: "New Orleans" },
-      { "@type": "State", name: "Louisiana" },
+      { "@type": "City", name: "Hopedale" },
+      { "@type": "City", name: "Chalmette" },
+      { "@type": "City", name: "Metairie" },
+      { "@type": "City", name: "Slidell" },
+      { "@type": "City", name: "Mandeville" },
     ],
+    founder: {
+      "@type": "Person",
+      name: "Captain John Styron",
+      jobTitle: "Charter Captain & Owner",
+    },
     sameAs: [
       "https://www.facebook.com/hookedontails",
       "https://www.instagram.com/hookedontails/",
@@ -171,6 +182,86 @@ export function FAQSchema() {
         text: faq.answer,
       },
     })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function WebSiteSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Hooked on Tails Bowfishing Charters",
+    url: "https://hookedontailsbowfishing.com",
+    description:
+      "Book nighttime bowfishing and daytime rod & reel fishing charters near New Orleans with Captain John Styron.",
+    publisher: {
+      "@type": "LocalBusiness",
+      "@id": "https://hookedontailsbowfishing.com/#business",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function CaptainPersonSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Captain John Styron",
+    jobTitle: "Charter Fishing Captain",
+    description:
+      "Captain John Styron is a lifelong New Orleans native and active firefighter who has been fishing the waters of Lake Borgne and the Louisiana marshes since childhood. With bowfishing experience since age 15, he guides nighttime bowfishing and daytime rod & reel charters from Hopedale, LA.",
+    worksFor: {
+      "@type": "LocalBusiness",
+      "@id": "https://hookedontailsbowfishing.com/#business",
+    },
+    url: "https://hookedontailsbowfishing.com/captain",
+    knowsAbout: [
+      "Bowfishing",
+      "Inshore Fishing",
+      "Louisiana Marsh Fishing",
+      "Redfish",
+      "Alligator Gar",
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function BreadcrumbSchema({ items }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://hookedontailsbowfishing.com",
+      },
+      ...items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 2,
+        name: item.name,
+        item: item.url,
+      })),
+    ],
   };
 
   return (
