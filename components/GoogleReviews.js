@@ -154,8 +154,12 @@ const GoogleLink = styled.a`
 `;
 
 function renderStars(rating) {
-  const filled = Math.round(rating);
+  const filled = Math.max(0, Math.min(5, Math.round(rating)));
   return "★".repeat(filled) + "☆".repeat(5 - filled);
+}
+
+function starsLabel(rating) {
+  return `${Number(rating).toFixed(1)} out of 5 stars`;
 }
 
 export default function GoogleReviews({
@@ -171,14 +175,16 @@ export default function GoogleReviews({
       <Container>
         <SectionTitle>What Our Guests Say</SectionTitle>
         <AggregateRating>
-          <Stars>{renderStars(averageRating)}</Stars>
+          <Stars aria-label={starsLabel(averageRating)} role="img">
+            <span aria-hidden="true">{renderStars(averageRating)}</span>
+          </Stars>
           {averageRating.toFixed(1)} out of 5 based on {totalReviewCount}{" "}
           Google reviews
         </AggregateRating>
 
         <ReviewsGrid>
-          {reviews.map((review, index) => (
-            <ReviewCard key={index}>
+          {reviews.map((review) => (
+            <ReviewCard key={`${review.authorName}-${review.relativeTime}`}>
               <ReviewHeader>
                 {review.profilePhotoUrl ? (
                   <AuthorPhoto
@@ -196,7 +202,9 @@ export default function GoogleReviews({
                   <ReviewTime>{review.relativeTime}</ReviewTime>
                 </AuthorInfo>
               </ReviewHeader>
-              <ReviewStars>{renderStars(review.rating)}</ReviewStars>
+              <ReviewStars aria-label={starsLabel(review.rating)} role="img">
+                <span aria-hidden="true">{renderStars(review.rating)}</span>
+              </ReviewStars>
               <ReviewText>{review.text}</ReviewText>
             </ReviewCard>
           ))}
