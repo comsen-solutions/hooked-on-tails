@@ -12,6 +12,7 @@ export const metadata = {
     title: 'FAQ | Hooked on Tails',
     description: 'Frequently asked questions about Louisiana fishing charters with Captain John Styron.',
     url: 'https://hookedontailsbowfishing.com/faq',
+    images: ['/opengraph-image.jpg'],
   },
 };
 
