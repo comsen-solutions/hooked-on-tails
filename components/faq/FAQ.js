@@ -13,7 +13,7 @@ const FaqSection = styled.section`
   margin-top: 2rem;
 `;
 
-const SectionTitle = styled.h2`
+const SectionTitle = styled.h1`
   font-size: 3rem;
   text-align: center;
   margin-bottom: 3rem;
