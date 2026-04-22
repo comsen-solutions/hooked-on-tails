@@ -1,4 +1,4 @@
-import { RodReelServiceSchema } from "@/components/StructuredData";
+import { RodReelServiceSchema, BreadcrumbSchema } from "@/components/StructuredData";
 import RodReelHero from "@/components/rod-and-reel/RodReelHero";
 import Experience from "@/components/rod-and-reel/Experience";
 import BoatSection from "@/components/rod-and-reel/BoatSection";
@@ -24,6 +24,7 @@ export default function RodAndReelPage() {
   return (
     <>
       <RodReelServiceSchema />
+      <BreadcrumbSchema items={[{ name: "Rod & Reel Fishing Charter", url: "https://hookedontailsbowfishing.com/rod-and-reel" }]} />
       <FloatingBookButton />
       <main>
         <RodReelHero />

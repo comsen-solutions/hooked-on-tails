@@ -1,4 +1,4 @@
-import { AggregateRatingSchema } from "@/components/StructuredData";
+import { AggregateRatingSchema, WebSiteSchema } from "@/components/StructuredData";
 import { fetchGoogleReviews } from "@/lib/googleReviews";
 import Hero from "@/components/Hero";
 import ExperienceCards from "@/components/ExperienceCards";
@@ -11,6 +11,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <WebSiteSchema />
       {averageRating > 0 && (
         <AggregateRatingSchema rating={averageRating} reviewCount={totalReviewCount} />
       )}
