@@ -6,6 +6,21 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.hookedontailsbowfishing.com',
+          },
+        ],
+        destination: 'https://hookedontailsbowfishing.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
