@@ -6,6 +6,15 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  async redirects() {
+    return [
+      {
+        source: '/book-online',
+        destination: '/contact',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
