@@ -12,7 +12,7 @@ export function LocalBusinessSchema() {
     url: "https://hookedontailsbowfishing.com",
     telephone: "+1-504-628-0232",
     email: "johnstyron62@gmail.com",
-    image: "https://hookedontailsbowfishing.com/images/bowfish_boat.png",
+    image: "https://hookedontailsbowfishing.com/images/bowfish_boat.jpg",
     priceRange: "$250 - $1600",
     address: {
       "@type": "PostalAddress",

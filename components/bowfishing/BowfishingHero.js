@@ -11,7 +11,7 @@ const HeroSection = styled.section`
       rgba(26, 26, 26, 0.7),
       rgba(42, 42, 42, 0.8)
     ),
-    url("/images/bowfish_boat.png");
+    url("/images/bowfish_boat.jpg");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;

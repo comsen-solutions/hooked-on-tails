@@ -116,7 +116,7 @@ export default function BoatSection() {
       <BoatContent>
         <BoatImage>
           <img
-            src="/images/rod_reel_boat.png"
+            src="/images/rod_reel_boat.jpg"
             alt="Fishing Experience"
             onError={(e) => {
               console.error("Image failed to load:", e);

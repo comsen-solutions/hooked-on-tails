@@ -47,8 +47,8 @@ npm install
 
 Place these images in the `public/images/` directory:
 
-- `rod_n_reel_hero.png` - Daytime fishing image
-- `bowfish_boat.png` - Nighttime bowfishing image
+- `rod_n_reel_hero.jpg` - Daytime fishing image
+- `bowfish_boat.jpg` - Nighttime bowfishing image
 - `captain_john.png` - Captain's photo (optional)
 
 ### 3. Run Development Server

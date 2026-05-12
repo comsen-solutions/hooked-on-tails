@@ -130,7 +130,7 @@ export default function Experience() {
       <ExperienceContent>
         <ExperienceImage>
           <img
-            src="/images/bowfishing_experience.png"
+            src="/images/bowfishing_experience.jpg"
             alt="Fishing Experience"
             onError={(e) => {
               console.error("Image failed to load:", e);
