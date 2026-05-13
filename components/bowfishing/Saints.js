@@ -79,7 +79,7 @@ export default function Saints() {
 
         <SaintsImage>
           <img
-            src="/images/saints_one.png"
+            src="/images/saints_one.jpg"
             alt="New Orleans Saints Bowfishing Trip"
           />
         </SaintsImage>

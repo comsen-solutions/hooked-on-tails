@@ -11,7 +11,7 @@ const HeroSection = styled.section`
       rgba(26, 26, 26, 0.6),
       rgba(26, 26, 26, 0.7)
     ),
-    url("/images/rod_n_reel_hero.png");
+    url("/images/rod_n_reel_hero.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

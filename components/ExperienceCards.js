@@ -79,8 +79,8 @@ const CardImage = styled.div`
   position: relative;
   overflow: hidden;
   background-image: ${props => props.$variant === 'day' 
-    ? 'linear-gradient(rgba(255, 215, 0, 0.3), rgba(255, 184, 0, 0.4)), url("/images/rod_n_reel_hero.png")'
-    : 'linear-gradient(rgba(26, 26, 26, 0.5), rgba(42, 42, 42, 0.6)), url("/images/bowfish_boat.png")'};
+    ? 'linear-gradient(rgba(255, 215, 0, 0.3), rgba(255, 184, 0, 0.4)), url("/images/rod_n_reel_hero.jpg")'
+    : 'linear-gradient(rgba(26, 26, 26, 0.5), rgba(42, 42, 42, 0.6)), url("/images/bowfish_boat.jpg")'};
   background-size: cover;
   background-position: ${props => props.$variant === 'day' ? 'center' : 'center top'};
 `
