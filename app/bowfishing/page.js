@@ -9,15 +9,15 @@ import Saints from "@/components/bowfishing/Saints";
 import FloatingBookButton from "@/components/FloatingBookButton";
 
 export const metadata = {
-  title: "New Orleans Bowfishing Charters | Hooked on Tails",
+  title: "New Orleans Bowfishing Charters | Night Trips from Hooked on Tails",
   description:
-    "Book a New Orleans bowfishing charter with Captain John Styron. Nighttime bowfishing adventures in the Louisiana marshes — redfish, alligator gar, drum & more. All equipment provided. $250/person.",
+    "Book a nighttime New Orleans bowfishing charter with Captain John Styron. All equipment provided, family-friendly trips, Louisiana marsh action. Call 504-628-0232.",
   alternates: {
     canonical: '/bowfishing',
   },
   openGraph: {
-    title: 'New Orleans Bowfishing Charters | Hooked on Tails',
-    description: 'Nighttime bowfishing adventures in the Louisiana marshes near New Orleans. Redfish, alligator gar, drum & more with Captain John Styron.',
+    title: 'New Orleans Bowfishing Charters | Night Trips from Hooked on Tails',
+    description: 'Book a nighttime New Orleans bowfishing charter with Captain John Styron. All equipment provided, family-friendly trips, Louisiana marsh action. Call 504-628-0232.',
     url: 'https://hookedontailsbowfishing.com/bowfishing',
   },
 };
