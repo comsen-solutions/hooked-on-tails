@@ -41,6 +41,39 @@ const Intro = styled.p`
   text-align: center;
 `;
 
+const WhyChoose = styled.div`
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    color: ${theme.colors.primary.dark};
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem 1rem;
+    list-style: none;
+  }
+
+  li {
+    color: ${theme.colors.text.secondary};
+    line-height: 1.6;
+
+    &::before {
+      content: "✓ ";
+      color: ${theme.colors.primary.dark};
+      font-weight: bold;
+    }
+  }
+`;
+
 const AreaGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -77,6 +110,15 @@ export default function BowfishingServiceArea() {
         who want a hands-on Louisiana bowfishing charter with lights, gear,
         instruction, and local guidance from Captain John Styron.
       </Intro>
+      <WhyChoose>
+        <h3>Why Book Your Louisiana Bowfishing Charter With Hooked on Tails?</h3>
+        <ul>
+          <li>Local guidance from Captain John Styron</li>
+          <li>Purpose-built bowfishing boat with powerful lights</li>
+          <li>All bowfishing equipment and instruction provided</li>
+          <li>Beginner-friendly trips for families and groups</li>
+        </ul>
+      </WhyChoose>
       <AreaGrid>
         <AreaCard>
           <h3>Near New Orleans</h3>
