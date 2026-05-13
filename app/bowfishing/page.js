@@ -4,8 +4,8 @@ import Experience from "@/components/bowfishing/Experience";
 import BoatSection from "@/components/bowfishing/BoatSection";
 import Species from "@/components/bowfishing/Species";
 import Pricing from "@/components/bowfishing/Pricing";
-import Gallery from "@/components/bowfishing/Gallery";
 import Saints from "@/components/bowfishing/Saints";
+import SocialTripHighlights from "@/components/SocialTripHighlights";
 import BowfishingServiceArea from "@/components/bowfishing/BowfishingServiceArea";
 import BowfishingFAQ from "@/components/bowfishing/BowfishingFAQ";
 import FloatingBookButton from "@/components/FloatingBookButton";
@@ -39,7 +39,7 @@ export default function BowfishingPage() {
         <Species />
         <Pricing />
         <BowfishingFAQ />
-        {/* <Gallery /> */}
+        <SocialTripHighlights compact />
         <Saints />
       </main>
     </>
