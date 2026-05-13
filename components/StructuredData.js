@@ -1,4 +1,5 @@
 import { faqs } from "@/lib/faqData";
+import { bowfishingFaqs } from "@/lib/bowfishingFaqData";
 
 export function LocalBusinessSchema() {
   const schema = {
@@ -94,7 +95,7 @@ export function BowfishingServiceSchema() {
     "@type": "TouristTrip",
     name: "New Orleans Bowfishing Charter",
     description:
-      "Nighttime bowfishing adventure in the Louisiana marshes near New Orleans. Hunt redfish, alligator gar, drum, flounder, and sheepshead under the stars with Captain John Styron. All equipment provided.",
+      "Nighttime bowfishing adventure in the Louisiana marshes near New Orleans, Hopedale, Delacroix, and Shell Beach. Hunt redfish, alligator gar, drum, flounder, and sheepshead under the lights with Captain John Styron. All equipment provided.",
     touristType: "Fishing",
     provider: {
       "@type": "LocalBusiness",
@@ -175,6 +176,28 @@ export function FAQSchema() {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function BowfishingFAQSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: bowfishingFaqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {

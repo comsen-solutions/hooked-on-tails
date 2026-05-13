@@ -142,15 +142,16 @@ export default function Experience() {
           <h3>Discover Louisiana's Night Waters</h3>
           <p>
             Come see the Louisiana marshes at night in a way few ever
-            experience. Watch as the marsh comes alive under our lights,
-            revealing natural oyster beds, underwater contours, and incredible
-            wildlife.
+            experience. Our New Orleans bowfishing trips explore marsh waters
+            near New Orleans, Hopedale, Delacroix, and Shell Beach, where the
+            boat lights reveal natural oyster beds, underwater contours, and
+            incredible wildlife.
           </p>
           <p>
-            You'll encounter redfish, speckled trout, flounder, black drum,
-            sheepshead, and many more species in their natural habitat. This
-            isn't just fishing—it's an unforgettable nighttime adventure through
-            one of America's most unique ecosystems.
+            You'll encounter redfish, flounder, black drum, sheepshead,
+            alligator gar, and many more species in their natural habitat. This
+            isn't just fishing—it's an unforgettable nighttime bowfishing trip
+            through one of America's most unique ecosystems.
           </p>
           <ExperienceHighlights>
             <HighlightItem>
