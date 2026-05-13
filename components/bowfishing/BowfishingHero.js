@@ -64,6 +64,13 @@ const HeroContent = styled.div`
   }
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
 const CtaButton = styled(Link)`
   display: inline-block;
   padding: 1rem 3rem;
@@ -82,17 +89,39 @@ const CtaButton = styled(Link)`
   }
 `;
 
+const PhoneButton = styled.a`
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.2);
+  }
+`;
+
 export default function BowfishingHero() {
   return (
     <HeroSection id="home">
       <HeroContent>
         <h1>New Orleans Bowfishing Charters</h1>
         <p>
-          Experience nighttime bowfishing in the Louisiana marshes near New
-          Orleans. Hunt alligator gar, redfish, drum, and more under the
-          stars with Captain John Styron.
+          Book a nighttime New Orleans bowfishing charter in the Louisiana
+          marshes near New Orleans, Hopedale, Delacroix, and Shell Beach. Hunt
+          alligator gar, redfish, drum, and more under the lights with Captain
+          John Styron. All equipment and instruction are provided.
         </p>
-        {/* <CtaButton href="#contact">Book Your Trip</CtaButton> */}
+        <ButtonGroup>
+          <CtaButton href="/contact">Book a New Orleans Bowfishing Charter</CtaButton>
+          <PhoneButton href="tel:15046280232">Call 504-628-0232</PhoneButton>
+        </ButtonGroup>
       </HeroContent>
     </HeroSection>
   );
