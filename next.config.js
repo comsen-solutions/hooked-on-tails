@@ -19,6 +19,11 @@ const nextConfig = {
         destination: 'https://hookedontailsbowfishing.com/:path*',
         permanent: true,
       },
+      {
+        source: '/book-online',
+        destination: '/contact',
+        permanent: true,
+      },
     ]
   },
 }
