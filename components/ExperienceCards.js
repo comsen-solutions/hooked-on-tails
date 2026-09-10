@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import styled from 'styled-components'
 import { theme } from '@/lib/theme'
+import { trackEvent } from '@/lib/analytics'
 
 const ExperiencesSection = styled.section`
   padding: 6rem 5%;
@@ -177,7 +178,16 @@ export default function ExperienceCards() {
                 <FeatureTag>All Skill Levels</FeatureTag>
                 <FeatureTag>Family Friendly</FeatureTag>
               </CardFeatures>
-              <CardButton href="/rod-and-reel" $variant="day">
+              <CardButton
+                href="/rod-and-reel"
+                $variant="day"
+                onClick={() =>
+                  trackEvent("experience_selected", {
+                    experience: "rod-and-reel",
+                    link_source: "homepage-experience-card",
+                  })
+                }
+              >
                 New Orleans Fishing Charters
               </CardButton>
             </CardContent>
@@ -198,7 +208,16 @@ export default function ExperienceCards() {
                 <FeatureTag>Night Adventure</FeatureTag>
                 <FeatureTag>No Experience Needed</FeatureTag>
               </CardFeatures>
-              <CardButton href="/bowfishing" $variant="night">
+              <CardButton
+                href="/bowfishing"
+                $variant="night"
+                onClick={() =>
+                  trackEvent("experience_selected", {
+                    experience: "bowfishing",
+                    link_source: "homepage-experience-card",
+                  })
+                }
+              >
                 New Orleans Bowfishing Charters
               </CardButton>
             </CardContent>

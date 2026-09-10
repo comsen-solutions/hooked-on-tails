@@ -30,7 +30,10 @@ export default function BowfishingPage() {
       <BowfishingServiceSchema />
       <BowfishingFAQSchema />
       <BreadcrumbSchema items={[{ name: "Nighttime Bowfishing Charter", url: "https://hookedontailsbowfishing.com/bowfishing" }]} />
-      <FloatingBookButton />
+      <FloatingBookButton
+        tripType="bowfishing"
+        source="bowfishing-floating-button"
+      />
       <main>
         <BowfishingHero />
         <Experience />

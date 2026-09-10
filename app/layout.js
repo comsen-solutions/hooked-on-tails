@@ -3,6 +3,7 @@ import { GlobalStyles } from '@/styles/GlobalStyles'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { LocalBusinessSchema } from '@/components/StructuredData'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 export const metadata = {
   title: 'Hooked on Tails | New Orleans Fishing & Bowfishing Charters',
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <GoogleAnalytics />
         <LocalBusinessSchema />
         <StyledComponentsRegistry>
           <GlobalStyles />

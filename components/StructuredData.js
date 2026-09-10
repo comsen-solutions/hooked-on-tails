@@ -1,5 +1,6 @@
 import { faqs } from "@/lib/faqData";
 import { bowfishingFaqs } from "@/lib/bowfishingFaqData";
+import { rodReelFaqs } from "@/lib/rodReelFaqData";
 
 export function LocalBusinessSchema() {
   const schema = {
@@ -133,6 +134,15 @@ export function RodReelServiceSchema() {
     description:
       "Daytime fishing charter in the Louisiana coastal marshes near New Orleans. Target redfish, speckled trout, sheepshead, and more with Captain John Styron. All equipment provided.",
     touristType: "Fishing",
+    itinerary: {
+      "@type": "ItemList",
+      itemListElement: [
+        {
+          "@type": "TouristAttraction",
+          name: "Hopedale and Lake Borgne inshore fishing waters",
+        },
+      ],
+    },
     provider: {
       "@type": "LocalBusiness",
       "@id": "https://hookedontailsbowfishing.com/#business",
@@ -161,6 +171,28 @@ export function RodReelServiceSchema() {
       "@type": "WebPage",
       url: "https://hookedontailsbowfishing.com/rod-and-reel",
     },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function RodReelFAQSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: rodReelFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
   };
 
   return (

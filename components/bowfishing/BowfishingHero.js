@@ -3,6 +3,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
+import { trackBookingClick } from "@/lib/analytics";
 
 const HeroSection = styled.section`
   height: 100vh;
@@ -119,8 +120,29 @@ export default function BowfishingHero() {
           John Styron. All equipment and instruction are provided.
         </p>
         <ButtonGroup>
-          <CtaButton href="/contact">Book a New Orleans Bowfishing Charter</CtaButton>
-          <PhoneButton href="tel:15046280232">Call 504-628-0232</PhoneButton>
+          <CtaButton
+            href="/contact?trip=bowfishing&source=bowfishing-hero"
+            onClick={() =>
+              trackBookingClick({
+                tripType: "bowfishing",
+                source: "bowfishing-hero",
+              })
+            }
+          >
+            Book a New Orleans Bowfishing Charter
+          </CtaButton>
+          <PhoneButton
+            href="tel:15046280232"
+            onClick={() =>
+              trackBookingClick({
+                tripType: "bowfishing",
+                source: "bowfishing-hero",
+                action: "phone",
+              })
+            }
+          >
+            Call 504-628-0232
+          </PhoneButton>
         </ButtonGroup>
       </HeroContent>
     </HeroSection>

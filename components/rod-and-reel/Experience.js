@@ -110,12 +110,12 @@ const HighlightItem = styled.div`
 export default function Experience() {
   return (
     <ExperienceSection id="experience">
-      <SectionTitle>The Fishing Experience</SectionTitle>
+      <SectionTitle>Fishing the Louisiana marsh</SectionTitle>
       <ExperienceContent>
         <ExperienceImage>
           <img
             src="/images/fishing_experience.jpg"
-            alt="Fishing Experience"
+            alt="Hooked on Tails guests gathered behind a table of fish after a Louisiana charter"
             onError={(e) => {
               console.error("Image failed to load:", e);
               e.target.style.display = "none";
@@ -123,33 +123,33 @@ export default function Experience() {
           />
         </ExperienceImage>
         <ExperienceInfo>
-          <h3>Louisiana's Premier Fishing Waters</h3>
+          <h3>Local water, practical guidance</h3>
           <p>
             Fish the same waters that Captain John has known since childhood.
-            The Louisiana marshes offer some of the best inshore fishing in the
-            Gulf Coast, with abundant redfish, speckled trout, and more.
+            The marshes around Hopedale and Lake Borgne hold redfish, speckled
+            trout, black drum, sheepshead, and other seasonal catch.
           </p>
           <p>
             Whether you're a seasoned angler or picking up a rod for the first
-            time, Captain John will put you on the fish and help you create
-            memories that last a lifetime.
+            time, Captain John handles the boat, gear, and local strategy so
+            your group can focus on fishing together.
           </p>
           <ExperienceHighlights>
             <HighlightItem>
-              <h4>Daytime Adventures</h4>
-              <p>Fish during the beautiful Louisiana daylight hours</p>
+              <h4>Daytime trips</h4>
+              <p>See the Louisiana marsh from the water</p>
             </HighlightItem>
             <HighlightItem>
-              <h4>Expert Guidance</h4>
+              <h4>Local guidance</h4>
               <p>Local knowledge from a lifelong waterman</p>
             </HighlightItem>
             <HighlightItem>
-              <h4>Family Friendly</h4>
+              <h4>Family friendly</h4>
               <p>Great for anglers of all ages and skill levels</p>
             </HighlightItem>
             <HighlightItem>
-              <h4>Trophy Potential</h4>
-              <p>Target trophy-class redfish and trout</p>
+              <h4>Seasonal variety</h4>
+              <p>Ask what species and water fit your date</p>
             </HighlightItem>
           </ExperienceHighlights>
         </ExperienceInfo>
