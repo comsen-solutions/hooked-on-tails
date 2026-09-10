@@ -117,7 +117,7 @@ export default function BoatSection() {
         <BoatImage>
           <img
             src="/images/rod_reel_boat.jpg"
-            alt="Fishing Experience"
+            alt="Captain John's center-console boat rigged for rod-and-reel fishing"
             onError={(e) => {
               console.error("Image failed to load:", e);
               e.target.style.display = "none";
@@ -125,7 +125,7 @@ export default function BoatSection() {
           />
         </BoatImage>
         <BoatInfo>
-          <h3>Your Fishing Vessel</h3>
+          <h3>Rigged for inshore and offshore days</h3>
           <p>
             Fish in comfort aboard Captain John's well-equipped fishing boat,
             designed for the Louisiana coastal waters. Whether navigating the

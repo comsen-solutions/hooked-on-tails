@@ -1,193 +1,322 @@
 "use client";
 
+import Link from "next/link";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
+import { trackBookingClick } from "@/lib/analytics";
 
 const PricingSection = styled.section`
-  padding: 5rem 5%;
-  max-width: 1400px;
-  margin: 0 auto;
-  background: ${theme.gradients.dark};
+  padding: 7rem 5%;
+  background: #0b1517;
   color: #fff;
 `;
 
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const Header = styled.div`
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 3.5rem;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+`;
+
+const Eyebrow = styled.p`
+  color: ${theme.colors.primary.main};
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+`;
+
 const SectionTitle = styled.h2`
-  font-size: 3rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  color: #fff;
-  position: relative;
+  font-size: clamp(2.6rem, 5vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+`;
 
-  &::after {
-    content: "";
-    display: block;
-    width: 100px;
-    height: 4px;
-    background: ${theme.gradients.primary};
-    margin: 1rem auto;
-    border-radius: 2px;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: 2rem;
-  }
+const HeaderCopy = styled.p`
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.1rem;
+  line-height: 1.75;
+  max-width: 60ch;
 `;
 
 const PricingCards = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 900px;
-  margin: 0 auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+  }
 `;
 
-const PricingCard = styled.div`
-  background: rgba(255, 215, 0, 0.05);
-  backdrop-filter: blur(10px);
-  padding: 2rem;
-  border-radius: 20px;
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  transition: all 0.3s;
+const PricingCard = styled.article`
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem;
+  background: ${(props) =>
+    props.$featured ? "#f0c735" : "rgba(255, 255, 255, 0.055)"};
+  color: ${(props) => (props.$featured ? "#101719" : "#fff")};
+  border: 1px solid
+    ${(props) =>
+      props.$featured ? "#f0c735" : "rgba(255, 255, 255, 0.14)"};
+  border-radius: ${(props) => (props.$featured ? "0 2rem 0 0" : "0 0 0 2rem")};
 
-  &:hover {
-    transform: translateY(-10px);
-    border-color: ${theme.colors.primary.main};
-    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 2rem 1.5rem;
   }
+`;
 
-  h3 {
-    color: ${theme.colors.primary.main};
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+const TripBadge = styled.p`
+  align-self: flex-start;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.74;
+  margin-bottom: 2.5rem;
+`;
+
+const CardTitle = styled.h3`
+  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  margin-bottom: 0.65rem;
+`;
+
+const TripTagline = styled.p`
+  min-height: 3.4rem;
+  opacity: 0.74;
+  line-height: 1.55;
+`;
+
+const Price = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: clamp(3rem, 6vw, 5.4rem);
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: -0.055em;
+  margin: 2.25rem 0 0.5rem;
+  font-variant-numeric: tabular-nums;
+
+  span {
+    font-size: 1rem;
+    letter-spacing: 0;
+    font-weight: 700;
   }
+`;
 
-  ul {
-    list-style: none;
-    margin: 1.5rem 0;
+const AdditionalCost = styled.p`
+  min-height: 1.6rem;
+  opacity: 0.74;
+  font-size: 0.95rem;
+`;
 
-    li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+const FeatureList = styled.ul`
+  list-style: none;
+  margin: 2rem 0 2.25rem;
 
-      &::before {
-        content: "✓ ";
-        color: ${theme.colors.primary.main};
-        font-weight: bold;
-        margin-right: 0.5rem;
-      }
+  li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid currentColor;
+    border-color: rgba(127, 127, 127, 0.28);
+    line-height: 1.45;
+
+    &::before {
+      content: "✓";
+      display: inline-block;
+      width: 1.5rem;
+      font-weight: 850;
     }
   }
 `;
 
-const TripBadge = styled.div`
-  display: inline-block;
-  background: ${(props) =>
-    props.$variant === "inshore"
-      ? "linear-gradient(135deg, #ffd700, #ffb800)"
-      : "linear-gradient(135deg, #ffb800, #d4a600)"};
-  color: ${theme.colors.text.primary};
-  padding: 0.4rem 1.2rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+const CardButton = styled(Link)`
+  display: inline-flex;
+  justify-content: center;
+  margin-top: auto;
+  padding: 1rem 1.25rem;
+  background: ${(props) => (props.$dark ? "#111b1d" : theme.gradients.primary)};
+  color: ${(props) => (props.$dark ? "#fff" : theme.colors.text.primary)};
+  border-radius: 0.55rem;
+  font-weight: 850;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: ${(props) =>
+      props.$dark
+        ? "0 10px 30px rgba(8, 17, 19, 0.24)"
+        : theme.shadows.goldHover};
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${(props) => (props.$dark ? "#fff" : theme.colors.primary.main)};
+    outline-offset: 3px;
+  }
 `;
 
-const TripTagline = styled.p`
+const SmallPartyNote = styled.p`
+  margin: 1.5rem 0 0;
+  padding: 1rem 1.2rem;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  font-style: italic;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 3px solid ${theme.colors.primary.main};
+  line-height: 1.65;
+
+  a {
+    color: ${theme.colors.primary.main};
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
 `;
 
-const Price = styled.div`
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 1rem 0;
+const SmallPartyLink = styled.a`
   color: ${theme.colors.primary.main};
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+
+  &:focus-visible {
+    outline: 3px solid ${theme.colors.primary.main};
+    outline-offset: 3px;
+  }
 `;
 
-const AdditionalCost = styled.p`
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-`;
-
-const Note = styled.div`
-  text-align: left;
+const Policy = styled.div`
   margin-top: 3rem;
-  font-size: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.92rem;
+  line-height: 1.7;
 
-  p {
-    margin: 0.5rem 0;
+  p + p {
+    margin-top: 0.65rem;
   }
 `;
 
 export default function Pricing() {
   return (
-    <PricingSection id="pricing">
-      <SectionTitle>Our Trips</SectionTitle>
-      <PricingCards>
-        <PricingCard>
-          <TripBadge $variant="inshore">Inshore</TripBadge>
-          <h3>Redfish & Trout</h3>
-          <TripTagline>Fish the beautiful Louisiana marshes</TripTagline>
-          <Price>
-            $300
-            <span style={{ fontSize: "1rem", fontWeight: "normal" }}>
-              /person
-            </span>
-          </Price>
-          <ul>
-            <li>Target redfish & speckled trout</li>
-            <li>3 person minimum</li>
-            <li>5 person maximum</li>
-            <li>All equipment provided</li>
-            <li>Bait and tackle included</li>
-            <li>Fish cleaning available</li>
-          </ul>
-        </PricingCard>
+    <PricingSection id="pricing" aria-labelledby="fishing-pricing-title">
+      <Container>
+        <Header>
+          <div>
+            <Eyebrow>Current charter rates</Eyebrow>
+            <SectionTitle id="fishing-pricing-title">Choose your fishing trip</SectionTitle>
+          </div>
+          <HeaderCopy>
+            Start with the water and species that interest your group. Captain
+            John will confirm availability and recommend the best option for
+            the season and conditions.
+          </HeaderCopy>
+        </Header>
 
-        <PricingCard>
-          <TripBadge $variant="offshore">Offshore</TripBadge>
-          <h3>Red Snapper</h3>
-          <TripTagline>Head out to deeper waters</TripTagline>
-          <Price>
-            $1,600
-            <span style={{ fontSize: "1rem", fontWeight: "normal" }}>
-              /4 people
-            </span>
-          </Price>
-          <AdditionalCost>+$200 per additional person</AdditionalCost>
-          <ul>
-            <li>Target red snapper</li>
-            <li>4 person minimum</li>
-            <li>6 person maximum</li>
-            <li>All equipment provided</li>
-            <li>Bait and tackle included</li>
-            <li>Fish cleaning available</li>
-          </ul>
-        </PricingCard>
-      </PricingCards>
+        <PricingCards>
+          <PricingCard $featured>
+            <TripBadge>Inshore / most popular</TripBadge>
+            <CardTitle>Redfish & speckled trout</CardTitle>
+            <TripTagline>Fish the marshes around Hopedale and Lake Borgne.</TripTagline>
+            <Price>
+              $300 <span>per person</span>
+            </Price>
+            <AdditionalCost>Three-person minimum · up to five anglers</AdditionalCost>
+            <FeatureList>
+              <li>About five hours on the water</li>
+              <li>Rods, reels, bait, and tackle provided</li>
+              <li>Beginner and family friendly</li>
+              <li>Fish cleaning available</li>
+            </FeatureList>
+            <CardButton
+              $dark
+              href="/contact?trip=inshore&source=rod-reel-pricing"
+              onClick={() =>
+                trackBookingClick({
+                  tripType: "inshore",
+                  source: "rod-reel-pricing",
+                })
+              }
+            >
+              Request an inshore trip
+            </CardButton>
+          </PricingCard>
 
-      <Note>
-        <p>- Deposit required to hold your date</p>
-        <p style={{ marginTop: "1rem" }}>
-          - Can accommodate larger groups with 3-4 boats
-        </p>
-        <p>
-          - Cancellations made less than 7 days prior to your scheduled date
-          will result in forfeiture of your deposit. Cancellations made within
-          24 hours of your scheduled trip will be charged the full trip amount.
-        </p>
-        <p>
-          - If captain cancels the trip due to weather or other unforeseen
-          circumstances, a full refund of the deposit will be given or the trip
-          will be rescheduled at no additional cost.
-        </p>
-      </Note>
+          <PricingCard>
+            <TripBadge>Offshore / seasonal</TripBadge>
+            <CardTitle>Red snapper</CardTitle>
+            <TripTagline>Head into deeper water when the season and conditions allow.</TripTagline>
+            <Price>
+              $1,600 <span>for four</span>
+            </Price>
+            <AdditionalCost>+$200 each additional person · up to six anglers</AdditionalCost>
+            <FeatureList>
+              <li>Offshore trip targeting red snapper</li>
+              <li>Rods, reels, bait, and tackle provided</li>
+              <li>Four-person minimum</li>
+              <li>Fish cleaning available</li>
+            </FeatureList>
+            <CardButton
+              href="/contact?trip=offshore&source=rod-reel-pricing"
+              onClick={() =>
+                trackBookingClick({
+                  tripType: "offshore",
+                  source: "rod-reel-pricing",
+                })
+              }
+            >
+              Request an offshore trip
+            </CardButton>
+          </PricingCard>
+        </PricingCards>
+
+        <SmallPartyNote>
+          Have one or two anglers? The published inshore rate has a three-person
+          minimum, but you can {" "}
+          <SmallPartyLink
+            href="tel:15046280232"
+            onClick={() =>
+              trackBookingClick({
+                tripType: "inshore",
+                source: "rod-reel-small-party-note",
+                action: "phone",
+              })
+            }
+          >
+            call Captain John
+          </SmallPartyLink>{" "}
+          to ask about availability and private-trip options.
+        </SmallPartyNote>
+
+        <Policy>
+          <p>A deposit is required to hold your date. Larger groups can be accommodated with three to four boats.</p>
+          <p>
+            Cancellations made fewer than seven days before the scheduled date
+            forfeit the deposit. Cancellations within 24 hours are charged the
+            full trip amount. If the captain cancels for weather or unforeseen
+            circumstances, the deposit is refunded or the trip is rescheduled
+            at no additional cost.
+          </p>
+        </Policy>
+      </Container>
     </PricingSection>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
+import { trackBookingClick } from "@/lib/analytics";
 
 const FloatingButton = styled(Link)`
   position: fixed;
@@ -27,6 +28,15 @@ const FloatingButton = styled(Link)`
     box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
   }
 
+  &:active {
+    transform: translateY(1px) scale(0.99);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     bottom: 20px;
     right: 20px;
@@ -35,6 +45,25 @@ const FloatingButton = styled(Link)`
   }
 `;
 
-export default function FloatingBookButton() {
-  return <FloatingButton href="/contact">Book Now</FloatingButton>;
+export default function FloatingBookButton({
+  tripType = "",
+  source = "floating-book-button",
+  label = "Book Now",
+}) {
+  const query = new URLSearchParams();
+
+  if (tripType) query.set("trip", tripType);
+  if (source) query.set("source", source);
+
+  const queryString = query.toString();
+  const href = queryString ? `/contact?${queryString}` : "/contact";
+
+  return (
+    <FloatingButton
+      href={href}
+      onClick={() => trackBookingClick({ tripType, source })}
+    >
+      {label}
+    </FloatingButton>
+  );
 }

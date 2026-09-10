@@ -59,6 +59,32 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
+### Analytics and reviews
+
+The site supports Google Analytics 4 and Google Places reviews through
+environment variables:
+
+```bash
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+GOOGLE_PLACES_API_KEY=your-google-places-api-key
+GOOGLE_PLACE_ID=your-google-place-id
+```
+
+The booking funnel emits these GA4 events without including names, email
+addresses, phone numbers, requested dates, or message text:
+
+- `experience_selected`
+- `booking_cta_click`
+- `booking_form_started`
+- `booking_request_attempt`
+- `booking_request_submitted`
+- `booking_request_error`
+- `booking_phone_click`
+
+Useful event parameters include `trip_type`, `link_source`, `lead_source`, and
+`guest_count`. Mark `booking_request_submitted` as a key event in GA4 after the
+measurement ID is configured.
+
 ### 4. Build for Production
 
 ```bash

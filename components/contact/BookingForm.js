@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
+import { trackEvent } from "@/lib/analytics";
 
 const BookingSection = styled.section`
   padding: 5rem 5%;
@@ -40,6 +41,18 @@ const Subtitle = styled.p`
   font-size: 1.3rem;
   max-width: 700px;
   margin: 0 auto 3rem;
+`;
+
+const DirectCallLink = styled.a`
+  color: ${theme.colors.primary.main};
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+
+  &:focus-visible {
+    outline: 3px solid ${theme.colors.primary.main};
+    outline-offset: 3px;
+  }
 `;
 
 const FormContainer = styled.div`
@@ -178,46 +191,21 @@ const StatusMessage = styled.div`
   }
 `;
 
-const SuccessContainer = styled.div`
-  text-align: center;
-  padding: 3rem;
+const validTripTypes = new Set(["inshore", "offshore", "bowfishing"]);
 
-  h3 {
-    font-size: 2rem;
-    color: #16a34a;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-
-  button {
-    padding: 1rem 2rem;
-    background: ${theme.gradients.primary};
-    color: ${theme.colors.text.primary};
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: ${theme.shadows.goldHover};
-    }
-  }
-`;
-
-export default function BookingForm() {
+export default function BookingForm({
+  initialTripType = "",
+  initialSource = "direct",
+}) {
+  const safeInitialTripType = validTripTypes.has(initialTripType)
+    ? initialTripType
+    : "";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     date: "",
-    tripType: "",
+    tripType: safeInitialTripType,
     guests: "",
     message: "",
   });
@@ -225,9 +213,20 @@ export default function BookingForm() {
   const [status, setStatus] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const hasTrackedStart = useRef(false);
+
+  const pageTitle =
+    safeInitialTripType === "bowfishing"
+      ? "Request Your Bowfishing Trip"
+      : safeInitialTripType === "offshore"
+        ? "Request Your Offshore Trip"
+        : safeInitialTripType === "inshore"
+          ? "Request Your Inshore Trip"
+          : "Book Your Adventure";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    handleFormStart();
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -235,6 +234,12 @@ export default function BookingForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus("sending");
+
+    trackEvent("booking_request_attempt", {
+      trip_type: formData.tripType || "not_selected",
+      guest_count: formData.guests || "not_selected",
+      lead_source: initialSource,
+    });
 
     const formDataToSend = new FormData();
 
@@ -249,9 +254,13 @@ export default function BookingForm() {
     formDataToSend.append("tripType", formData.tripType);
     formDataToSend.append("guests", formData.guests);
     formDataToSend.append("message", formData.message);
+    formDataToSend.append("source", initialSource);
 
     // Optional: Customize the email subject
-    formDataToSend.append("subject", "New Booking Request - Hooked on Tails");
+    formDataToSend.append(
+      "subject",
+      `New ${formData.tripType || "Charter"} Booking Request - Hooked on Tails`,
+    );
 
     // Optional: Add custom redirect after success (if you want)
     // formDataToSend.append("redirect", "https://hookedontails.com/thank-you");
@@ -267,22 +276,35 @@ export default function BookingForm() {
       if (data.success) {
         setStatus("success");
         setShowSuccess(true);
+        trackEvent("booking_request_submitted", {
+          trip_type: formData.tripType,
+          guest_count: formData.guests || "not_selected",
+          lead_source: initialSource,
+        });
         // Reset form
         setFormData({
           name: "",
           email: "",
           phone: "",
           date: "",
-          tripType: "",
+          tripType: safeInitialTripType,
           guests: "",
           message: "",
         });
       } else {
         setStatus("error");
+        trackEvent("booking_request_error", {
+          trip_type: formData.tripType || "not_selected",
+          lead_source: initialSource,
+        });
         console.error("Form submission error:", data);
       }
     } catch (error) {
       setStatus("error");
+      trackEvent("booking_request_error", {
+        trip_type: formData.tripType || "not_selected",
+        lead_source: initialSource,
+      });
       console.error("Form submission error:", error);
     } finally {
       setIsSubmitting(false);
@@ -294,17 +316,25 @@ export default function BookingForm() {
     setStatus("");
   };
 
+  const handleFormStart = () => {
+    if (hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    trackEvent("booking_form_started", {
+      trip_type: formData.tripType || "not_selected",
+      lead_source: initialSource,
+    });
+  };
+
   if (showSuccess) {
     return (
       <BookingSection id="booking">
-        <SectionTitle>🎣 Booking Request Sent!</SectionTitle>
+        <SectionTitle>Booking request sent</SectionTitle>
         <Subtitle>
-          Thank you for your booking request! Captain John will contact you
+          Thank you for your booking request. Captain John will contact you
           within 24 hours to confirm your trip details and arrange your deposit.
         </Subtitle>
         <Subtitle style={{ fontSize: "1rem", marginTop: "1rem" }}>
-          Check your email for a confirmation. We look forward to fishing with
-          you!
+          Check your email for a confirmation. We look forward to fishing with you.
         </Subtitle>
         <SubmitButton
           onClick={resetForm}
@@ -324,14 +354,25 @@ export default function BookingForm() {
 
   return (
     <BookingSection id="booking">
-      <SectionTitle>Book Your Adventure</SectionTitle>
+      <SectionTitle>{pageTitle}</SectionTitle>
       <Subtitle>
         Ready to experience Louisiana fishing? Fill out the form below and
-        Captain John will get back to you within 24 hours.
+        Captain John will get back to you within 24 hours, or {" "}
+        <DirectCallLink
+          href="tel:15046280232"
+          onClick={() =>
+            trackEvent("booking_phone_click", {
+              trip_type: formData.tripType || "not_selected",
+              lead_source: initialSource,
+            })
+          }
+        >
+          call 504-628-0232
+        </DirectCallLink>.
       </Subtitle>
 
       <FormContainer>
-        <StyledForm onSubmit={handleSubmit}>
+        <StyledForm onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
           <FormGroup>
             <label htmlFor="name">Full Name *</label>
             <input
@@ -339,7 +380,7 @@ export default function BookingForm() {
               id="name"
               name="name"
               required
-              placeholder="John Doe"
+              placeholder="Your name"
               value={formData.name}
               onChange={handleChange}
             />
@@ -352,7 +393,7 @@ export default function BookingForm() {
               id="email"
               name="email"
               required
-              placeholder="john.doe@example.com"
+              placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
             />
@@ -383,12 +424,13 @@ export default function BookingForm() {
             </FormGroup>
 
             <FormGroup>
-              <label htmlFor="tripType">Trip Type</label>
+              <label htmlFor="tripType">Trip Type *</label>
               <select
                 id="tripType"
                 name="tripType"
                 value={formData.tripType}
                 onChange={handleChange}
+                required
               >
                 <option value="">Select...</option>
                 <option value="inshore">
@@ -413,6 +455,8 @@ export default function BookingForm() {
               onChange={handleChange}
             >
               <option value="">Select...</option>
+              <option value="1">1 Person (Ask About Availability)</option>
+              <option value="2">2 People (Ask About Availability)</option>
               <option value="3">3 People</option>
               <option value="4">4 People</option>
               <option value="5">5 People</option>
@@ -434,17 +478,19 @@ export default function BookingForm() {
           </FormGroup>
 
           {status && status !== "sending" && (
-            <StatusMessage className={status}>
+            <StatusMessage className={status} role="status" aria-live="polite">
               {status === "success"
-                ? "✓ Booking request sent successfully!"
-                : "✗ Something went wrong. Please try again or call us directly."}
+                ? "✓ Booking request sent successfully."
+                : "We couldn't send your request. Please try again or call us directly."}
             </StatusMessage>
           )}
 
           <SubmitButton type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Sending..." : "Send Booking Request"}
           </SubmitButton>
-          <FormNote>Note - Deposit required to hold your date</FormNote>
+          <FormNote>
+            A deposit is required after Captain John confirms availability.
+          </FormNote>
         </StyledForm>
       </FormContainer>
     </BookingSection>

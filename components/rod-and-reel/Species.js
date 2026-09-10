@@ -105,6 +105,18 @@ const species = [
     image: "redfish_render.png",
   },
   {
+    name: "Black Drum",
+    description:
+      "A strong inshore fish commonly found around marsh edges and structure.",
+    image: "black_drum_render.png",
+  },
+  {
+    name: "Sheepshead",
+    description:
+      "A structure-loving coastal species known for a careful bite and excellent table fare.",
+    image: "sheepshead_render.png",
+  },
+  {
     name: "Red Snapper",
     description:
       "Prized offshore catch known for their vibrant color and excellent taste.",
@@ -114,11 +126,11 @@ const species = [
 
 export default function Species() {
   return (
-    <SpeciesSection>
-      <SectionTitle>Target Catch</SectionTitle>
+    <SpeciesSection aria-labelledby="fishing-species-title">
+      <SectionTitle id="fishing-species-title">Fish you may encounter</SectionTitle>
       <SpeciesGrid>
-        {species.map((fish, index) => (
-          <SpeciesCard key={index}>
+        {species.map((fish) => (
+          <SpeciesCard key={fish.name}>
             <SpeciesImage>
               <img src={`/images/${fish.image}`} alt={fish.name} />
             </SpeciesImage>

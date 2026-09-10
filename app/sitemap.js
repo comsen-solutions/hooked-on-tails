@@ -1,41 +1,42 @@
 export default function sitemap() {
   const baseUrl = 'https://hookedontailsbowfishing.com'
-  const lastModified = '2026-03-20'
+  const siteLastModified = '2026-05-13'
+  const fishingLastModified = '2026-09-09'
 
   return [
     {
       url: baseUrl,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
       url: `${baseUrl}/bowfishing`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/rod-and-reel`,
-      lastModified,
+      lastModified: fishingLastModified,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/captain`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/faq`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified,
+      lastModified: fishingLastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
     },

@@ -16,12 +16,31 @@ export const metadata = {
   },
 };
 
-export default function ContactPage() {
+const allowedTripTypes = new Set(["inshore", "offshore", "bowfishing"]);
+
+export default function ContactPage({ searchParams }) {
+  const requestedTrip = Array.isArray(searchParams?.trip)
+    ? searchParams.trip[0]
+    : searchParams?.trip;
+  const requestedSource = Array.isArray(searchParams?.source)
+    ? searchParams.source[0]
+    : searchParams?.source;
+  const initialTripType = allowedTripTypes.has(requestedTrip)
+    ? requestedTrip
+    : "";
+  const initialSource =
+    requestedSource
+      ?.replace(/[^a-z0-9_-]/gi, "")
+      .slice(0, 80) || "direct";
+
   return (
     <>
       <BreadcrumbSchema items={[{ name: "Book Now", url: "https://hookedontailsbowfishing.com/contact" }]} />
       <main>
-        <BookingForm />
+        <BookingForm
+          initialTripType={initialTripType}
+          initialSource={initialSource}
+        />
       </main>
     </>
   );
