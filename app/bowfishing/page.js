@@ -9,17 +9,21 @@ import SocialTripHighlights from "@/components/SocialTripHighlights";
 import BowfishingServiceArea from "@/components/bowfishing/BowfishingServiceArea";
 import BowfishingFAQ from "@/components/bowfishing/BowfishingFAQ";
 import FloatingBookButton from "@/components/FloatingBookButton";
+import BowfishingCaptain from "@/components/bowfishing/BowfishingCaptain";
+import BowfishingFirstTrip from "@/components/bowfishing/BowfishingFirstTrip";
+import ReviewsSection from "@/components/ReviewsSection";
+
+const description = "New Orleans night bowfishing with Captain John: $250 per person, 4-person minimum, 4–4.5 hours. Gear, instruction and fish cleaning included. Ages 8+.";
 
 export const metadata = {
   title: "New Orleans Bowfishing Charters | Night Trips from Hooked on Tails",
-  description:
-    "Book a nighttime New Orleans bowfishing charter with Captain John Styron. All equipment provided, family-friendly trips, Louisiana marsh action. Call 504-628-0232.",
+  description,
   alternates: {
     canonical: '/bowfishing',
   },
   openGraph: {
     title: 'New Orleans Bowfishing Charters | Night Trips from Hooked on Tails',
-    description: 'Book a nighttime New Orleans bowfishing charter with Captain John Styron. All equipment provided, family-friendly trips, Louisiana marsh action. Call 504-628-0232.',
+    description,
     url: 'https://hookedontailsbowfishing.com/bowfishing',
   },
 };
@@ -36,11 +40,14 @@ export default function BowfishingPage() {
       />
       <main>
         <BowfishingHero />
+        <Pricing />
+        <BowfishingCaptain />
+        <ReviewsSection />
         <Experience />
+        <BowfishingFirstTrip />
         <BowfishingServiceArea />
         <BoatSection />
         <Species />
-        <Pricing />
         <BowfishingFAQ />
         <SocialTripHighlights compact />
         <Saints />

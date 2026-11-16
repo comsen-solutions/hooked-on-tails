@@ -6,13 +6,14 @@ import { theme } from "@/lib/theme";
 import { trackBookingClick } from "@/lib/analytics";
 
 const HeroSection = styled.section`
-  height: 100vh;
+  min-height: 100svh;
   width: 100%;
+  padding: 8rem 0 4rem;
   background-image: linear-gradient(
       rgba(26, 26, 26, 0.7),
       rgba(42, 42, 42, 0.8)
     ),
-    url("/images/bowfish_boat.jpg");
+    url("/images/bowfish_boat.webp");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -22,6 +23,14 @@ const HeroSection = styled.section`
   text-align: center;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    background-image: linear-gradient(
+        rgba(26, 26, 26, 0.7),
+        rgba(42, 42, 42, 0.8)
+      ),
+      url("/images/bowfish_boat-small.webp");
+  }
 
   &::before {
     content: "";
@@ -34,35 +43,75 @@ const HeroSection = styled.section`
       transparent 70%
     );
     animation: pulse 8s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   }
 `;
 
 const HeroContent = styled.div`
   position: relative;
   z-index: 2;
-  padding: 2rem;
-  max-width: 900px;
+  padding: 0 1.5rem;
+  width: 100%;
+  max-width: 1000px;
 
   h1 {
-    font-size: 4rem;
+    font-size: clamp(2.35rem, 5.5vw, 4rem);
+    line-height: 1.12;
     color: #fff;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 20px rgba(255, 215, 0, 0.5);
 
-    @media (max-width: ${theme.breakpoints.mobile}) {
-      font-size: 2.5rem;
-    }
   }
 
   p {
     font-size: 1.5rem;
     color: #ccc;
-    margin-bottom: 2rem;
+    max-width: 760px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
 
     @media (max-width: ${theme.breakpoints.mobile}) {
       font-size: 1.2rem;
     }
   }
+`;
+
+const TripSummary = styled.dl`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 2rem auto 1.25rem;
+  max-width: 850px;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(255, 215, 0, 0.45);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.45);
+  gap: 1.25rem 1rem;
+
+  dt {
+    color: ${theme.colors.text.light};
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+  }
+
+  dd {
+    color: ${theme.colors.primary.main};
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+`;
+
+const IncludedNote = styled.div`
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 auto 1.75rem;
 `;
 
 const ButtonGroup = styled.div`
@@ -74,7 +123,7 @@ const ButtonGroup = styled.div`
 
 const CtaButton = styled(Link)`
   display: inline-block;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
   background: ${theme.gradients.primary};
   color: ${theme.colors.text.primary};
   text-decoration: none;
@@ -84,6 +133,11 @@ const CtaButton = styled(Link)`
   transition: all 0.3s;
   box-shadow: 0 5px 30px rgba(255, 215, 0, 0.4);
 
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
@@ -92,7 +146,7 @@ const CtaButton = styled(Link)`
 
 const PhoneButton = styled.a`
   display: inline-block;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
   text-decoration: none;
@@ -101,6 +155,11 @@ const PhoneButton = styled.a`
   font-size: 1.2rem;
   font-weight: bold;
   transition: all 0.3s;
+
+  &:focus-visible {
+    outline: 3px solid ${theme.colors.primary.main};
+    outline-offset: 4px;
+  }
 
   &:hover {
     transform: translateY(-3px);
@@ -114,11 +173,20 @@ export default function BowfishingHero() {
       <HeroContent>
         <h1>New Orleans Bowfishing Charters</h1>
         <p>
-          Book a nighttime New Orleans bowfishing charter in the Louisiana
-          marshes near New Orleans, Hopedale, Delacroix, and Shell Beach. Hunt
-          alligator gar, redfish, drum, and more under the lights with Captain
-          John Styron. All equipment and instruction are provided.
+          Explore the Louisiana marsh at night with Captain John Styron.
+          Spot redfish, drum, and gar under the boat lights, with all the gear
+          and guidance you need for your first shot.
         </p>
+        <TripSummary aria-label="Bowfishing trip at a glance">
+          <div><dt>Per person</dt><dd>$250</dd></div>
+          <div><dt>Group size</dt><dd>4–6 guests</dd></div>
+          <div><dt>Trip duration</dt><dd>4–4.5 hours</dd></div>
+          <div><dt>Welcome aboard</dt><dd>Ages 8+</dd></div>
+        </TripSummary>
+        <IncludedNote>
+          Gear, instruction &amp; fish cleaning included.<br />
+          4-person minimum · $1,000 minimum trip total
+        </IncludedNote>
         <ButtonGroup>
           <CtaButton
             href="/contact?trip=bowfishing&source=bowfishing-hero"
@@ -129,7 +197,7 @@ export default function BowfishingHero() {
               })
             }
           >
-            Book a New Orleans Bowfishing Charter
+            Check Bowfishing Dates
           </CtaButton>
           <PhoneButton
             href="tel:15046280232"

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
 import { bowfishingFaqs } from "@/lib/bowfishingFaqData";
@@ -47,15 +46,19 @@ const FaqContainer = styled.div`
   margin: 0 auto;
 `;
 
-const FaqItem = styled.div`
+const FaqItem = styled.details`
   background: #fff;
   margin-bottom: 1rem;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  &[open] summary span {
+    transform: rotate(45deg);
+  }
 `;
 
-const FaqQuestion = styled.button`
+const FaqQuestion = styled.summary`
   width: 100%;
   padding: 1.5rem;
   cursor: pointer;
@@ -68,6 +71,17 @@ const FaqQuestion = styled.button`
   align-items: center;
   text-align: left;
   font-size: 1rem;
+  gap: 1rem;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${theme.colors.primary.dark};
+    outline-offset: -3px;
+  }
 
   &:hover {
     color: ${theme.colors.primary.dark};
@@ -76,47 +90,32 @@ const FaqQuestion = styled.button`
   span {
     font-size: 1.5rem;
     transition: transform 0.3s;
-    transform: rotate(${(props) => (props.$isOpen ? "45deg" : "0deg")});
+    flex-shrink: 0;
   }
 `;
 
 const FaqAnswer = styled.div`
-  padding: ${(props) => (props.$isOpen ? "0 1.5rem 1.5rem" : "0 1.5rem")};
+  padding: 0 1.5rem 1.5rem;
   color: ${theme.colors.text.secondary};
-  max-height: ${(props) => (props.$isOpen ? "500px" : "0")};
-  opacity: ${(props) => (props.$isOpen ? "1" : "0")};
-  overflow: hidden;
   line-height: 1.7;
-  transition: all 0.3s ease-in-out;
 `;
 
 export default function BowfishingFAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFaq = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
     <FaqSection id="bowfishing-faq">
       <SectionTitle>New Orleans Bowfishing FAQs</SectionTitle>
       <Intro>
         Planning a nighttime bowfishing trip near New Orleans? Here are the
-        basics on launch areas, target species, experience level, and what to
-        bring.
+        details on prices, launch planning, first-time trips, and what to bring.
       </Intro>
       <FaqContainer>
         {bowfishingFaqs.map((faq, index) => (
-          <FaqItem key={faq.question}>
-            <FaqQuestion
-              onClick={() => toggleFaq(index)}
-              $isOpen={openIndex === index}
-              aria-expanded={openIndex === index}
-            >
+          <FaqItem key={faq.question} open={index === 0}>
+            <FaqQuestion>
               {faq.question}
-              <span>+</span>
+              <span aria-hidden="true">+</span>
             </FaqQuestion>
-            <FaqAnswer $isOpen={openIndex === index}>{faq.answer}</FaqAnswer>
+            <FaqAnswer>{faq.answer}</FaqAnswer>
           </FaqItem>
         ))}
       </FaqContainer>

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
-import { trackEvent } from "@/lib/analytics";
+import { normalizeLeadSource, trackEvent } from "@/lib/analytics";
 
 const BookingSection = styled.section`
   padding: 5rem 5%;
@@ -200,6 +200,7 @@ export default function BookingForm({
   const safeInitialTripType = validTripTypes.has(initialTripType)
     ? initialTripType
     : "";
+  const safeInitialSource = normalizeLeadSource(initialSource);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -214,6 +215,7 @@ export default function BookingForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const hasTrackedStart = useRef(false);
+  const submissionInFlight = useRef(false);
 
   const pageTitle =
     safeInitialTripType === "bowfishing"
@@ -232,13 +234,15 @@ export default function BookingForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submissionInFlight.current) return;
+    submissionInFlight.current = true;
     setIsSubmitting(true);
     setStatus("sending");
 
     trackEvent("booking_request_attempt", {
       trip_type: formData.tripType || "not_selected",
       guest_count: formData.guests || "not_selected",
-      lead_source: initialSource,
+      lead_source: safeInitialSource,
     });
 
     const formDataToSend = new FormData();
@@ -254,7 +258,7 @@ export default function BookingForm({
     formDataToSend.append("tripType", formData.tripType);
     formDataToSend.append("guests", formData.guests);
     formDataToSend.append("message", formData.message);
-    formDataToSend.append("source", initialSource);
+    formDataToSend.append("source", safeInitialSource);
 
     // Optional: Customize the email subject
     formDataToSend.append(
@@ -273,13 +277,13 @@ export default function BookingForm({
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok && data.success === true) {
         setStatus("success");
         setShowSuccess(true);
         trackEvent("booking_request_submitted", {
           trip_type: formData.tripType,
           guest_count: formData.guests || "not_selected",
-          lead_source: initialSource,
+          lead_source: safeInitialSource,
         });
         // Reset form
         setFormData({
@@ -295,18 +299,19 @@ export default function BookingForm({
         setStatus("error");
         trackEvent("booking_request_error", {
           trip_type: formData.tripType || "not_selected",
-          lead_source: initialSource,
+          lead_source: safeInitialSource,
         });
-        console.error("Form submission error:", data);
+        console.error("Booking request was not accepted.");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
       trackEvent("booking_request_error", {
         trip_type: formData.tripType || "not_selected",
-        lead_source: initialSource,
+        lead_source: safeInitialSource,
       });
-      console.error("Form submission error:", error);
+      console.error("Booking request could not be sent.");
     } finally {
+      submissionInFlight.current = false;
       setIsSubmitting(false);
     }
   };
@@ -314,6 +319,7 @@ export default function BookingForm({
   const resetForm = () => {
     setShowSuccess(false);
     setStatus("");
+    hasTrackedStart.current = false;
   };
 
   const handleFormStart = () => {
@@ -321,7 +327,7 @@ export default function BookingForm({
     hasTrackedStart.current = true;
     trackEvent("booking_form_started", {
       trip_type: formData.tripType || "not_selected",
-      lead_source: initialSource,
+      lead_source: safeInitialSource,
     });
   };
 
@@ -363,7 +369,7 @@ export default function BookingForm({
           onClick={() =>
             trackEvent("booking_phone_click", {
               trip_type: formData.tripType || "not_selected",
-              lead_source: initialSource,
+              lead_source: safeInitialSource,
             })
           }
         >

@@ -24,6 +24,20 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
   }
 
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 3px solid #b58a00;
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   /* Animations */
   @keyframes fadeInUp {
     from {

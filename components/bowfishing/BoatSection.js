@@ -55,27 +55,6 @@ const BoatImage = styled.div`
   }
 `;
 
-const ImagePlaceholder = styled.div`
-  width: 100%;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: ${theme.gradients.primary};
-  color: ${theme.colors.text.primary};
-  font-size: 4rem;
-
-  p {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 300px;
-  }
-`;
-
 const BoatInfo = styled.div`
   h3 {
     font-size: 2rem;
@@ -116,12 +95,14 @@ export default function BoatSection() {
       <BoatContent>
         <BoatImage>
           <img
-            src="/images/bowfish_boat.jpg"
-            alt="Fishing Experience"
-            onError={(e) => {
-              console.error("Image failed to load:", e);
-              e.target.style.display = "none";
-            }}
+            src="/images/bowfish_boat.webp"
+            srcSet="/images/bowfish_boat-small.webp 600w, /images/bowfish_boat.webp 1200w"
+            sizes="(max-width: 768px) 90vw, 45vw"
+            width="1200"
+            height="900"
+            loading="lazy"
+            decoding="async"
+            alt="Hooked on Tails bowfishing boat with lights for nighttime trips"
           />
         </BoatImage>
         <BoatInfo>

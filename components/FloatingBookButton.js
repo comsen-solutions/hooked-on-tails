@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/lib/theme";
 import { trackBookingClick } from "@/lib/analytics";
@@ -50,6 +51,21 @@ export default function FloatingBookButton({
   source = "floating-book-button",
   label = "Book Now",
 }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(false);
+    const hero = document.querySelector("main > section:first-of-type");
+    if (!hero || !("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(!entry.isIntersecting && entry.boundingClientRect.bottom <= 0);
+    });
+    observer.observe(hero);
+
+    return () => observer.disconnect();
+  }, [tripType]);
+
   const query = new URLSearchParams();
 
   if (tripType) query.set("trip", tripType);
@@ -57,6 +73,8 @@ export default function FloatingBookButton({
 
   const queryString = query.toString();
   const href = queryString ? `/contact?${queryString}` : "/contact";
+
+  if (!isVisible) return null;
 
   return (
     <FloatingButton

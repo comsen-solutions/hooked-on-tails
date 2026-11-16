@@ -1,7 +1,9 @@
 "use client";
 
 import styled from "styled-components";
+import Link from "next/link";
 import { theme } from "@/lib/theme";
+import { trackBookingClick } from "@/lib/analytics";
 
 const PricingSection = styled.section`
   padding: 5rem 5%;
@@ -35,7 +37,7 @@ const SectionTitle = styled.h2`
 
 const PricingCards = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 2rem;
 `;
 
@@ -57,6 +59,16 @@ const PricingCard = styled.div`
     color: ${theme.colors.primary.main};
     font-size: 1.5rem;
     margin-bottom: 1rem;
+  }
+
+  p {
+    color: ${theme.colors.text.light};
+    line-height: 1.6;
+  }
+
+  a {
+    color: ${theme.colors.primary.main};
+    text-underline-offset: 3px;
   }
 
   ul {
@@ -88,23 +100,42 @@ const Note = styled.div`
   text-align: left;
   margin-top: 2rem;
   font-size: 1rem;
+  line-height: 1.7;
 
   p {
     margin: 0.5rem 0;
   }
 `;
 
+const BookingLink = styled(Link)`
+  display: inline-flex;
+  justify-content: center;
+  padding: 1rem 1.75rem;
+  margin-top: 1.5rem;
+  border-radius: 50px;
+  background: ${theme.gradients.primary};
+  color: ${theme.colors.text.primary};
+  font-weight: 700;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+`;
+
 export default function Pricing() {
   return (
     <PricingSection id="pricing">
-      <SectionTitle>Trip Details</SectionTitle>
+      <SectionTitle>Bowfishing Prices &amp; Trip Details</SectionTitle>
       <PricingCards>
         <PricingCard>
-          <h3>Cost Per Person</h3>
+          <h3>Per Person</h3>
           <Price>$250</Price>
+          <p>$1,000 minimum trip total for 4 guests.</p>
           <ul>
-            <li>4 person minimum</li>
-            <li>6 person maximum</li>
+            <li>4-person minimum · 6-person maximum</li>
+            <li>5 guests: $1,250 · 6 guests: $1,500</li>
             <li>All equipment included</li>
             <li>Fish cleaning service</li>
             <li>Full instruction</li>
@@ -114,14 +145,14 @@ export default function Pricing() {
         <PricingCard>
           <h3>Trip Duration</h3>
           <Price>
-            4-4.5<span style={{ fontSize: "1.5rem" }}>hrs</span>
+            4–4.5 <span style={{ fontSize: "1.5rem" }}>hrs</span>
           </Price>
           <ul>
             <li>Evening departure</li>
-            <li>Night fishing adventure</li>
-            <li>Patriot Lodge launch</li>
-            <li>Weather permitting</li>
-            <li>Safety is priority</li>
+            <li>Nighttime fishing under the lights</li>
+            <li>Launch location confirmed by Captain John</li>
+            <li>Meeting time confirmed before departure</li>
+            <li>Trips are weather permitting</li>
           </ul>
         </PricingCard>
 
@@ -129,30 +160,44 @@ export default function Pricing() {
           <h3>What to Bring</h3>
           <Price style={{ fontSize: "2rem" }}>Checklist</Price>
           <ul>
-            <li>$20 / 3-day charter pass</li>
+            <li>Valid fishing license or charter passenger license</li>
             <li>Your own food & drinks</li>
-            <li>Ice chest for storage</li>
-            <li>Typical fishing attire</li>
-            <li>Dress for the weather</li>
+            <li>Ice chest to take home your catch</li>
+            <li>Non-marking shoes</li>
+            <li>Weather-appropriate clothing</li>
           </ul>
+          <p>
+            The Louisiana 3-day saltwater charter passenger license is $20.
+            Existing licenses and age exemptions may apply. {" "}
+            <a href="https://support.louisianaoutdoors.com/hc/en-us/articles/38752299858836-Adult-Non-Residents-Available-3-or-5-Day-Fishing-Licenses-For-Purchase" target="_blank" rel="noopener noreferrer">
+              Check LDWF license requirements
+            </a>.
+          </p>
         </PricingCard>
       </PricingCards>
 
       <Note>
-        <p>- $250 deposit required to hold your date</p>
+        <p><strong>Reserve your date:</strong> A $250 deposit is required.</p>
         <p style={{ marginTop: "1rem" }}>
-          - Can accommodate larger groups with 3-4 boats
+          <strong>More than 6 guests?</strong> Ask Captain John about coordinating
+          a larger group across 3–4 boats and confirm availability before booking.
         </p>
         <p>
-          - Cancellations made less than 7 days prior to your scheduled date
+          <strong>Cancellation policy:</strong> Cancellations made less than 7 days prior to your scheduled date
           will result in forfeiture of your deposit. Cancellations made within
           24 hours of your scheduled trip will be charged the full trip amount.
         </p>
         <p>
-          - If captain cancels the trip due to weather or other unforeseen
+          If the captain cancels the trip due to weather or other unforeseen
           circumstances, a full refund of the deposit will be given or the trip
           will be rescheduled at no additional cost.
         </p>
+        <BookingLink
+          href="/contact?trip=bowfishing&source=bowfishing-pricing"
+          onClick={() => trackBookingClick({ tripType: "bowfishing", source: "bowfishing-pricing" })}
+        >
+          Request Your Bowfishing Date
+        </BookingLink>
       </Note>
     </PricingSection>
   );

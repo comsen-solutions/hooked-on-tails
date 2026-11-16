@@ -5,7 +5,8 @@ import styled from "styled-components";
 import { theme } from "@/lib/theme";
 
 const HeroSection = styled.section`
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -23,6 +24,17 @@ const VideoBackground = styled.video`
   height: 100%;
   object-fit: cover;
   z-index: 0;
+`;
+
+const PosterBackground = styled.picture`
+  position: absolute;
+  inset: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const VideoOverlay = styled.div`
@@ -45,6 +57,10 @@ const VideoOverlay = styled.div`
       transparent 70%
     );
     animation: pulse 8s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   }
 `;
 
@@ -96,47 +112,118 @@ const ScrollIndicator = styled.div`
   font-size: 2rem;
   z-index: 2;
   animation: bounce 2s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export default function Hero() {
   const videoRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [videoSource, setVideoSource] = useState(null);
 
   useEffect(() => {
-    // Check if viewport is mobile-sized
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = navigator.connection;
+    let idleCallback;
+    let timeout;
+    let disposed = false;
+
+    const cancelPendingVideo = () => {
+      if (idleCallback !== undefined) window.cancelIdleCallback(idleCallback);
+      window.clearTimeout(timeout);
     };
 
-    // Check on mount
-    checkMobile();
+    const shouldUsePoster = () =>
+      reducedMotion.matches ||
+      connection?.saveData ||
+      ["slow-2g", "2g"].includes(connection?.effectiveType);
 
-    // Add resize listener
-    window.addEventListener("resize", checkMobile);
+    const loadVideo = () => {
+      if (disposed || shouldUsePoster()) return;
 
-    return () => window.removeEventListener("resize", checkMobile);
+      // Choose once after hydration so phones never download the desktop video.
+      const source = window.matchMedia("(max-width: 768px)").matches
+        ? "/images/hero-video-mobile-optimized.mp4"
+        : "/images/hero-video.mp4";
+      setVideoSource((current) => current || source);
+    };
+
+    const scheduleVideo = () => {
+      cancelPendingVideo();
+      if (shouldUsePoster()) {
+        videoRef.current?.pause();
+        setVideoSource(null);
+        return;
+      }
+
+      // The poster and page content load before this decorative background.
+      if ("requestIdleCallback" in window) {
+        idleCallback = window.requestIdleCallback(loadVideo, { timeout: 2500 });
+      } else {
+        timeout = window.setTimeout(loadVideo, 1000);
+      }
+    };
+
+    const onPreferenceChange = () => {
+      if (shouldUsePoster() || document.readyState === "complete") scheduleVideo();
+    };
+
+    if (document.readyState === "complete") scheduleVideo();
+    else window.addEventListener("load", scheduleVideo, { once: true });
+
+    reducedMotion.addEventListener("change", onPreferenceChange);
+    connection?.addEventListener?.("change", onPreferenceChange);
+
+    return () => {
+      disposed = true;
+      cancelPendingVideo();
+      window.removeEventListener("load", scheduleVideo);
+      reducedMotion.removeEventListener("change", onPreferenceChange);
+      connection?.removeEventListener?.("change", onPreferenceChange);
+    };
   }, []);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75;
-      // Reload the video when isMobile changes
-      videoRef.current.load();
-    }
-  }, [isMobile]);
+    if (!videoSource || !videoRef.current) return;
+    videoRef.current.playbackRate = 0.75;
+    videoRef.current.play().catch(() => {
+      // Browsers can block autoplay; the poster remains a complete background.
+    });
+  }, [videoSource]);
 
   return (
     <HeroSection>
-      <VideoBackground ref={videoRef} autoPlay loop muted playsInline>
+      <PosterBackground aria-hidden="true">
         <source
-          src={
-            isMobile
-              ? "/images/hero-video-mobile.mp4"
-              : "/images/hero-video.mp4"
-          }
-          type="video/mp4"
+          media="(max-width: 768px)"
+          srcSet="/images/hero-video-mobile-poster.webp"
+          width="540"
+          height="960"
+          type="image/webp"
         />
-      </VideoBackground>
+        <img
+          src="/images/hero-video-poster.webp"
+          width="960"
+          height="540"
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+        />
+      </PosterBackground>
+      {videoSource && (
+        <VideoBackground
+          ref={videoRef}
+          src={videoSource}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+      )}
       <VideoOverlay />
       <HeroContent>
         <h1>New Orleans Fishing & Bowfishing Charters</h1>
