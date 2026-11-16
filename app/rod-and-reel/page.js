@@ -2,9 +2,7 @@ import {
   RodReelServiceSchema,
   RodReelFAQSchema,
   BreadcrumbSchema,
-  AggregateRatingSchema,
 } from "@/components/StructuredData";
-import { fetchGoogleReviews } from "@/lib/googleReviews";
 import RodReelHero from "@/components/rod-and-reel/RodReelHero";
 import Experience from "@/components/rod-and-reel/Experience";
 import TripDetails from "@/components/rod-and-reel/TripDetails";
@@ -15,7 +13,7 @@ import RodReelHighlights from "@/components/rod-and-reel/RodReelHighlights";
 import RodReelFAQ from "@/components/rod-and-reel/RodReelFAQ";
 import FishingBookingCTA from "@/components/rod-and-reel/FishingBookingCTA";
 import FloatingBookButton from "@/components/FloatingBookButton";
-import GoogleReviews from "@/components/GoogleReviews";
+import ReviewsSection from "@/components/ReviewsSection";
 
 export const metadata = {
   title: "New Orleans Fishing Charters | Hooked on Tails",
@@ -32,19 +30,11 @@ export const metadata = {
   },
 };
 
-export default async function RodAndReelPage() {
-  const { reviews, averageRating, totalReviewCount } = await fetchGoogleReviews();
-
+export default function RodAndReelPage() {
   return (
     <>
       <RodReelServiceSchema />
       <RodReelFAQSchema />
-      {averageRating > 0 && (
-        <AggregateRatingSchema
-          rating={averageRating}
-          reviewCount={totalReviewCount}
-        />
-      )}
       <BreadcrumbSchema items={[{ name: "Rod & Reel Fishing Charter", url: "https://hookedontailsbowfishing.com/rod-and-reel" }]} />
       <FloatingBookButton
         tripType="inshore"
@@ -59,12 +49,7 @@ export default async function RodAndReelPage() {
         <Species />
         <Pricing />
         <RodReelHighlights />
-        <GoogleReviews
-          reviews={reviews}
-          averageRating={averageRating}
-          totalReviewCount={totalReviewCount}
-          placeId={process.env.GOOGLE_PLACE_ID}
-        />
+        <ReviewsSection />
         <RodReelFAQ />
         <FishingBookingCTA />
       </main>

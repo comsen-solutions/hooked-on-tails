@@ -41,42 +41,9 @@ const Intro = styled.p`
   text-align: center;
 `;
 
-const WhyChoose = styled.div`
-  max-width: 900px;
-  margin: 0 auto 2.5rem;
-  background: #fff;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-
-  h3 {
-    color: ${theme.colors.primary.dark};
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.75rem 1rem;
-    list-style: none;
-  }
-
-  li {
-    color: ${theme.colors.text.secondary};
-    line-height: 1.6;
-
-    &::before {
-      content: "✓ ";
-      color: ${theme.colors.primary.dark};
-      font-weight: bold;
-    }
-  }
-`;
-
 const AreaGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
   gap: 1rem;
   margin-top: 2rem;
 `;
@@ -102,50 +69,35 @@ const AreaCard = styled.div`
 export default function BowfishingServiceArea() {
   return (
     <ServiceAreaSection id="bowfishing-near-new-orleans">
-      <SectionTitle>Bowfishing Near New Orleans</SectionTitle>
+      <SectionTitle>Plan Your Night Near New Orleans</SectionTitle>
       <Intro>
-        Hooked on Tails offers nighttime New Orleans bowfishing charters in
-        Louisiana marsh waters near New Orleans, including areas around
-        Hopedale, Delacroix, and Shell Beach. These trips are built for anglers
-        who want a hands-on Louisiana bowfishing charter with lights, gear,
-        instruction, and local guidance from Captain John Styron.
+        We fish the Louisiana marshes near New Orleans, including areas around
+        Hopedale, Delacroix, and Shell Beach. Before you head out, confirm your
+        meeting point and departure time directly with Captain John.
       </Intro>
-      <WhyChoose>
-        <h3>Why Book Your Louisiana Bowfishing Charter With Hooked on Tails?</h3>
-        <ul>
-          <li>Local guidance from Captain John Styron</li>
-          <li>Purpose-built bowfishing boat with powerful lights</li>
-          <li>All bowfishing equipment and instruction provided</li>
-          <li>Beginner-friendly trips for families and groups</li>
-        </ul>
-      </WhyChoose>
       <AreaGrid>
         <AreaCard>
-          <h3>Near New Orleans</h3>
+          <h3>Confirm Your Launch</h3>
           <p>
-            A close-to-New-Orleans bowfishing trip for visitors and locals who
-            want to experience Louisiana marsh action after dark.
+            Captain John will confirm your exact meeting location, launch
+            instructions, and departure time. Confirm these details before
+            setting off so you know where to meet and when to arrive.
           </p>
         </AreaCard>
         <AreaCard>
-          <h3>Hopedale</h3>
+          <h3>Allow for a Full Evening</h3>
           <p>
-            Productive marsh access for nighttime bowfishing, with shallow-water
-            habitat where redfish, drum, gar, and sheepshead can be found.
+            Plan for a 4–4.5-hour trip, plus travel to and from the launch.
+            Check the drive from your hotel or home once your meeting point is
+            confirmed, and ask Captain John about the expected return time.
           </p>
         </AreaCard>
         <AreaCard>
-          <h3>Delacroix</h3>
+          <h3>Tell Us About Your Crew</h3>
           <p>
-            A classic Louisiana marsh area known for winding waterways, grassy
-            edges, and the kind of habitat that makes bowfishing exciting.
-          </p>
-        </AreaCard>
-        <AreaCard>
-          <h3>Shell Beach</h3>
-          <p>
-            Another nearby coastal access area for Louisiana fishing and
-            bowfishing trips near the New Orleans region.
+            Include your preferred date, number of guests, and any children in
+            your inquiry. Trips welcome ages 8 and up. Share any questions about
+            comfort or mobility so you can discuss the boat and trip before booking.
           </p>
         </AreaCard>
       </AreaGrid>

@@ -85,6 +85,8 @@ const SpeciesImage = styled.div`
   margin-bottom: 1rem;
 
   img {
+    width: auto;
+    height: auto;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
@@ -96,31 +98,46 @@ const species = [
     name: "Speckled Trout",
     description:
       "Prized for both sport and table fare. Abundant in the coastal marshes.",
-    image: "trout_render.png",
+    image: "trout_render",
+    width: 640,
+    height: 427,
+    smallWidth: 320,
   },
   {
     name: "Redfish",
     description:
       "Louisiana's most popular gamefish. Known for their copper color and fighting spirit.",
-    image: "redfish_render.png",
+    image: "redfish_render",
+    width: 400,
+    height: 440,
+    smallWidth: 200,
   },
   {
     name: "Black Drum",
     description:
       "A strong inshore fish commonly found around marsh edges and structure.",
-    image: "black_drum_render.png",
+    image: "black_drum_render",
+    width: 640,
+    height: 360,
+    smallWidth: 320,
   },
   {
     name: "Sheepshead",
     description:
       "A structure-loving coastal species known for a careful bite and excellent table fare.",
-    image: "sheepshead_render.png",
+    image: "sheepshead_render",
+    width: 640,
+    height: 480,
+    smallWidth: 320,
   },
   {
     name: "Red Snapper",
     description:
       "Prized offshore catch known for their vibrant color and excellent taste.",
-    image: "red_snapper_render.png",
+    image: "red_snapper_render",
+    width: 640,
+    height: 427,
+    smallWidth: 320,
   },
 ];
 
@@ -132,7 +149,16 @@ export default function Species() {
         {species.map((fish) => (
           <SpeciesCard key={fish.name}>
             <SpeciesImage>
-              <img src={`/images/${fish.image}`} alt={fish.name} />
+              <img
+                src={`/images/${fish.image}.webp`}
+                srcSet={`/images/${fish.image}-small.webp ${fish.smallWidth}w, /images/${fish.image}.webp ${fish.width}w`}
+                sizes="(max-width: 768px) 75vw, (max-width: 1024px) 35vw, 25vw"
+                width={fish.width}
+                height={fish.height}
+                loading="lazy"
+                decoding="async"
+                alt={fish.name}
+              />
             </SpeciesImage>
             <h3>{fish.name}</h3>
             <p>{fish.description}</p>

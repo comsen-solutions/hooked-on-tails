@@ -15,19 +15,6 @@ export function LocalBusinessSchema() {
     telephone: "+1-504-628-0232",
     email: "johnstyron62@gmail.com",
     image: "https://hookedontailsbowfishing.com/images/bowfish_boat.jpg",
-    priceRange: "$250 - $1600",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Hopedale",
-      addressRegion: "LA",
-      postalCode: "70085",
-      addressCountry: "US",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 29.8585,
-      longitude: -89.8387,
-    },
     areaServed: [
       { "@type": "City", name: "New Orleans" },
       { "@type": "City", name: "Hopedale" },
@@ -46,26 +33,12 @@ export function LocalBusinessSchema() {
       "https://www.instagram.com/hookedontails/",
       "https://www.tiktok.com/@hookedontailsbowfishing",
     ],
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ],
-      opens: "06:00",
-      closes: "23:00",
-    },
     makesOffer: [
       {
         "@type": "Offer",
         name: "Night Bowfishing Charter",
         description:
-          "Nighttime bowfishing adventure in the Louisiana marshes near New Orleans. Target redfish, alligator gar, drum, and more.",
+          "Nighttime bowfishing near New Orleans. $250 per person, with a 4-person minimum ($1,000 minimum trip total) and 6-person maximum per boat. Equipment, instruction, and fish cleaning included.",
         price: "250",
         priceCurrency: "USD",
         url: "https://hookedontailsbowfishing.com/bowfishing",
@@ -74,7 +47,7 @@ export function LocalBusinessSchema() {
         "@type": "Offer",
         name: "Rod & Reel Fishing Charter",
         description:
-          "Daytime fishing charter in the Louisiana coastal marshes near New Orleans. Target redfish, speckled trout, sheepshead, and more.",
+          "Daytime inshore fishing near New Orleans. $300 per person, with a 3-person minimum and up to 5 anglers. Target redfish and speckled trout.",
         price: "300",
         priceCurrency: "USD",
         url: "https://hookedontailsbowfishing.com/rod-and-reel",
@@ -237,28 +210,6 @@ export function BowfishingFAQSchema() {
         text: faq.answer,
       },
     })),
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
-}
-
-export function AggregateRatingSchema({ rating, reviewCount }) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://hookedontailsbowfishing.com/#business",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: rating,
-      reviewCount: reviewCount,
-      bestRating: 5,
-      worstRating: 1,
-    },
   };
 
   return (

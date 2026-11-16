@@ -153,7 +153,7 @@ const SocialButton = styled.a`
 
 const highlights = [
   {
-    image: "/images/bowfishing_experience.jpg",
+    image: "/images/bowfishing_experience.webp",
     alt: "Night bowfishing charter action in the Louisiana marsh near New Orleans",
     badge: "Instagram",
     title: "Night Bowfishing Action",
@@ -162,17 +162,17 @@ const highlights = [
     linkText: "See more on Instagram →",
   },
   {
-    image: "/images/bowfish_boat.jpg",
+    image: "/images/bowfish_boat.webp",
     alt: "Hooked on Tails bowfishing boat with lights for nighttime Louisiana charters",
     badge: "TikTok",
     title: "Watch the Boat & Lights",
-    text: "Follow short videos of the bowfishing setup, marsh runs, and on-the-water action without loading heavy embeds here.",
+    text: "Take a closer look at the boat, the lights, and a night on the water with Captain John.",
     href: "https://www.tiktok.com/@hookedontailsbowfishing",
     linkText: "Watch on TikTok →",
   },
   {
-    image: "/images/saints_one.jpg",
-    alt: "Family friendly Hooked on Tails fishing charter trip highlight",
+    image: "/images/saints_one.webp",
+    alt: "Guests on a Hooked on Tails bowfishing charter",
     badge: "Social",
     title: "Recent Trip Highlights",
     text: "Browse fresh catches, customer trips, and seasonal updates from Hooked on Tails before you book your charter.",
@@ -187,7 +187,8 @@ export default function SocialTripHighlights({ compact = false }) {
       <Container>
         <SectionTitle>{compact ? "Recent Bowfishing Highlights" : "See The Action"}</SectionTitle>
         <Subtitle>
-          Follow Hooked on Tails for recent bowfishing and fishing trip highlights. This section uses fast local images and links out to Instagram and TikTok instead of loading heavy social feed widgets.
+          Get a feel for the trip before you step aboard. Follow Hooked on Tails
+          for catches, boat videos, and moments from our days and nights on the water.
         </Subtitle>
 
         <Cards>

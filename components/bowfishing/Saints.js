@@ -79,7 +79,13 @@ export default function Saints() {
 
         <SaintsImage>
           <img
-            src="/images/saints_one.jpg"
+            src="/images/saints_one.webp"
+            srcSet="/images/saints_one-small.webp 450w, /images/saints_one.webp 900w"
+            sizes="(max-width: 768px) 90vw, 45vw"
+            width="900"
+            height="1200"
+            loading="lazy"
+            decoding="async"
             alt="New Orleans Saints Bowfishing Trip"
           />
         </SaintsImage>

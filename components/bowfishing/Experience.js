@@ -54,28 +54,6 @@ const ExperienceImage = styled.div`
   }
 `;
 
-const ImagePlaceholder = styled.div`
-  width: 100%;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: ${theme.gradients.dark};
-  color: ${theme.colors.primary.main};
-  font-size: 4rem;
-
-  p {
-    font-size: 1.2rem;
-    color: ${theme.colors.text.light};
-    margin-top: 1rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    height: 300px;
-  }
-`;
-
 const ExperienceInfo = styled.div`
   h3 {
     font-size: 2rem;
@@ -130,12 +108,14 @@ export default function Experience() {
       <ExperienceContent>
         <ExperienceImage>
           <img
-            src="/images/bowfishing_experience.jpg"
-            alt="Fishing Experience"
-            onError={(e) => {
-              console.error("Image failed to load:", e);
-              e.target.style.display = "none";
-            }}
+            src="/images/bowfishing_experience.webp"
+            srcSet="/images/bowfishing_experience-small.webp 600w, /images/bowfishing_experience.webp 1200w"
+            sizes="(max-width: 768px) 90vw, 45vw"
+            width="1200"
+            height="900"
+            loading="lazy"
+            decoding="async"
+            alt="Hooked on Tails guests with their catch after a nighttime trip"
           />
         </ExperienceImage>
         <ExperienceInfo>

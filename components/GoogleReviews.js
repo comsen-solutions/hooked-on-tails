@@ -42,6 +42,27 @@ const AggregateRating = styled.div`
   font-size: 1.2rem;
 `;
 
+const ReviewNote = styled.p`
+  max-width: 680px;
+  margin: 0 auto 2rem;
+  text-align: center;
+  color: ${theme.colors.text.light};
+  font-size: 1rem;
+  line-height: 1.7;
+
+  a { color: inherit; }
+`;
+
+const SourceName = styled.span`
+  white-space: nowrap;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: #fff;
+`;
+
 const Stars = styled.span`
   color: ${theme.colors.primary.main};
   font-size: 1.4rem;
@@ -108,6 +129,11 @@ const AuthorName = styled.div`
   font-weight: bold;
   color: ${theme.colors.text.primary};
   font-size: 1rem;
+
+  &[href] {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 `;
 
 const ReviewTime = styled.div`
@@ -130,6 +156,20 @@ const ReviewText = styled.p`
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+`;
+
+const ReviewSourceLink = styled.a`
+  display: inline-block;
+  margin-top: 1rem;
+  color: ${theme.colors.text.primary};
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-underline-offset: 3px;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
 `;
 
 const GoogleLink = styled.a`
@@ -163,33 +203,47 @@ function starsLabel(rating) {
 }
 
 export default function GoogleReviews({
-  reviews,
-  averageRating,
-  totalReviewCount,
-  placeId,
+  reviews = [],
+  averageRating = 0,
+  totalReviewCount = 0,
+  reviewsUrl = "https://www.google.com/maps/search/?api=1&query=Hooked+on+Tails+Bowfishing+Charters",
+  attributions = [],
 }) {
-  if (!reviews || reviews.length === 0) return null;
+  const hasReviews = reviews.length > 0;
+  const hasRating = Number.isFinite(averageRating) && averageRating > 0 && totalReviewCount > 0;
 
   return (
     <ReviewsSection>
       <Container>
         <SectionTitle>What Our Guests Say</SectionTitle>
-        <AggregateRating>
+        {hasRating && <AggregateRating>
           <Stars aria-label={starsLabel(averageRating)} role="img">
             <span aria-hidden="true">{renderStars(averageRating)}</span>
           </Stars>
           {averageRating.toFixed(1)} out of 5 based on {totalReviewCount}{" "}
-          Google reviews
-        </AggregateRating>
+          {totalReviewCount === 1 ? "review" : "reviews"} on Google Maps
+        </AggregateRating>}
 
-        <ReviewsGrid>
+        <ReviewNote>
+          {hasReviews ? (
+            <>Reviews from <SourceName translate="no">Google Maps</SourceName>, shown in Google&apos;s relevance order.</>
+          ) : (
+            <>Read what guests share about their fishing and bowfishing trips with Captain John on Google Maps.</>
+          )}
+        </ReviewNote>
+
+        {hasReviews && <ReviewsGrid>
           {reviews.map((review) => (
-            <ReviewCard key={`${review.authorName}-${review.relativeTime}`}>
+            <ReviewCard key={review.id || `${review.authorName}-${review.relativeTime}`}>
               <ReviewHeader>
                 {review.profilePhotoUrl ? (
                   <AuthorPhoto
                     src={review.profilePhotoUrl}
-                    alt={review.authorName}
+                    alt=""
+                    width={40}
+                    height={40}
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                 ) : (
@@ -198,24 +252,47 @@ export default function GoogleReviews({
                   </PhotoPlaceholder>
                 )}
                 <AuthorInfo>
-                  <AuthorName>{review.authorName}</AuthorName>
+                  <AuthorName
+                    as={review.authorUrl ? "a" : "div"}
+                    href={review.authorUrl || undefined}
+                    target={review.authorUrl ? "_blank" : undefined}
+                    rel={review.authorUrl ? "noopener noreferrer" : undefined}
+                  >
+                    {review.authorName}
+                  </AuthorName>
                   <ReviewTime>{review.relativeTime}</ReviewTime>
                 </AuthorInfo>
               </ReviewHeader>
               <ReviewStars aria-label={starsLabel(review.rating)} role="img">
                 <span aria-hidden="true">{renderStars(review.rating)}</span>
               </ReviewStars>
-              <ReviewText>{review.text}</ReviewText>
+              {review.text && <ReviewText>{review.text}</ReviewText>}
+              {review.translated && <ReviewTime>Translated by Google</ReviewTime>}
+              <ReviewSourceLink
+                href={review.reviewUrl || reviewsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read review on Google Maps
+              </ReviewSourceLink>
             </ReviewCard>
           ))}
-        </ReviewsGrid>
+        </ReviewsGrid>}
+
+        {attributions.length > 0 && <ReviewNote>
+          {attributions.map((attribution) => (
+            <a key={attribution.url} href={attribution.url} target="_blank" rel="noopener noreferrer">
+              {attribution.name}{" "}
+            </a>
+          ))}
+        </ReviewNote>}
 
         <GoogleLink
-          href={`https://search.google.com/local/reviews?placeid=${placeId}`}
+          href={reviewsUrl}
           target="_blank"
           rel="noopener noreferrer"
         >
-          View All Reviews on Google
+          Read Guest Reviews on Google Maps
         </GoogleLink>
       </Container>
     </ReviewsSection>

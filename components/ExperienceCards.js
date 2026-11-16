@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import styled from 'styled-components'
 import { theme } from '@/lib/theme'
 import { trackEvent } from '@/lib/analytics'
@@ -59,6 +60,8 @@ const CardsGrid = styled.div`
 `
 
 const Card = styled.div`
+  display: flex;
+  flex-direction: column;
   background: ${theme.colors.text.white};
   border-radius: ${theme.borderRadius.medium};
   overflow: hidden;
@@ -74,20 +77,18 @@ const Card = styled.div`
 
 const CardImage = styled.div`
   height: 280px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background-image: ${props => props.$variant === 'day' 
-    ? 'linear-gradient(rgba(255, 215, 0, 0.3), rgba(255, 184, 0, 0.4)), url("/images/rod_n_reel_hero.jpg")'
-    : 'linear-gradient(rgba(26, 26, 26, 0.5), rgba(42, 42, 42, 0.6)), url("/images/bowfish_boat.jpg")'};
-  background-size: cover;
-  background-position: ${props => props.$variant === 'day' ? 'center' : 'center top'};
+  background: ${theme.colors.background.dark};
 `
 
 const TimeBadge = styled.span`
   position: absolute;
+  z-index: 1;
   top: 20px;
   right: 20px;
   background: rgba(255, 255, 255, 0.95);
@@ -99,6 +100,9 @@ const TimeBadge = styled.span`
 `
 
 const CardContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 2rem;
 
   h3 {
@@ -112,6 +116,29 @@ const CardContent = styled.div`
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
     line-height: 1.7;
+  }
+`
+
+const TripSummary = styled.dl`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0 0 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e5e2d8;
+  font-variant-numeric: tabular-nums;
+
+  dt {
+    color: ${theme.colors.text.secondary};
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  dd {
+    color: ${theme.colors.text.primary};
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.5;
   }
 `
 
@@ -133,6 +160,7 @@ const FeatureTag = styled.span`
 
 const CardButton = styled(Link)`
   display: inline-block;
+  margin-top: auto;
   width: 100%;
   padding: 1rem 2rem;
   text-decoration: none;
@@ -155,7 +183,7 @@ const CardButton = styled(Link)`
 
 export default function ExperienceCards() {
   return (
-    <ExperiencesSection>
+    <ExperiencesSection id="experiences">
       <Container>
         <SectionTitle>Choose Your Adventure</SectionTitle>
         <SectionSubtitle>
@@ -164,13 +192,20 @@ export default function ExperienceCards() {
 
         <CardsGrid>
           <Card>
-            <CardImage $variant="day">
+            <CardImage>
+              <Image
+                src="/images/rod_n_reel_hero.webp"
+                alt="Daytime fishing in the Louisiana marshes"
+                fill
+                sizes="(max-width: 768px) 90vw, (max-width: 1400px) 42vw, 560px"
+                style={{ objectFit: 'cover' }}
+              />
               <TimeBadge>Daytime</TimeBadge>
             </CardImage>
             <CardContent>
               <h3>Rod & Reel Fishing</h3>
               <p>
-                Classic Louisiana fishing at its finest. Target redfish, speckled trout, and more in the beautiful coastal marshes.
+                Fish for redfish and speckled trout with Captain John. Rods, reels, bait, and tackle are provided, with guidance for first-time anglers.
               </p>
               <CardFeatures>
                 <FeatureTag>Redfish</FeatureTag>
@@ -178,6 +213,12 @@ export default function ExperienceCards() {
                 <FeatureTag>All Skill Levels</FeatureTag>
                 <FeatureTag>Family Friendly</FeatureTag>
               </CardFeatures>
+              <TripSummary>
+                <div><dt>Inshore rate</dt><dd>$300 per person</dd></div>
+                <div><dt>Group size</dt><dd>3–5 anglers</dd></div>
+                <div><dt>Time on the water</dt><dd>About 5 hours</dd></div>
+                <div><dt>Minimum trip</dt><dd>$900 for 3</dd></div>
+              </TripSummary>
               <CardButton
                 href="/rod-and-reel"
                 $variant="day"
@@ -194,13 +235,20 @@ export default function ExperienceCards() {
           </Card>
 
           <Card>
-            <CardImage $variant="night">
+            <CardImage>
+              <Image
+                src="/images/bowfish_boat.webp"
+                alt="Hooked on Tails boat ready for a nighttime bowfishing charter"
+                fill
+                sizes="(max-width: 768px) 90vw, (max-width: 1400px) 42vw, 560px"
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+              />
               <TimeBadge>Nighttime</TimeBadge>
             </CardImage>
             <CardContent>
               <h3>Night Bowfishing</h3>
               <p>
-                An unforgettable nighttime adventure. Hunt alligator gar, redfish, and more under the stars with bow and arrow.
+                Explore the marsh after dark from a boat equipped with lights. Captain John provides the bows, equipment, and instruction. No experience needed.
               </p>
               <CardFeatures>
                 <FeatureTag>Alligator Gar</FeatureTag>
@@ -208,6 +256,12 @@ export default function ExperienceCards() {
                 <FeatureTag>Night Adventure</FeatureTag>
                 <FeatureTag>No Experience Needed</FeatureTag>
               </CardFeatures>
+              <TripSummary>
+                <div><dt>Bowfishing rate</dt><dd>$250 per person</dd></div>
+                <div><dt>Group size</dt><dd>4–6 guests</dd></div>
+                <div><dt>Time on the water</dt><dd>4–4.5 hours</dd></div>
+                <div><dt>Minimum trip</dt><dd>$1,000 for 4</dd></div>
+              </TripSummary>
               <CardButton
                 href="/bowfishing"
                 $variant="night"
