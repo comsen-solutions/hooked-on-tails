@@ -94,6 +94,40 @@ const ReviewCard = styled.div`
   }
 `;
 
+const MoreReviewsCard = styled(ReviewCard)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  border: 2px solid ${theme.colors.primary.main};
+  background: rgba(255, 215, 0, 0.06);
+  color: ${theme.colors.text.white};
+  text-decoration: none;
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  p {
+    color: ${theme.colors.text.light};
+    line-height: 1.7;
+  }
+
+  span {
+    color: ${theme.colors.primary.main};
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+`;
+
 const ReviewHeader = styled.div`
   display: flex;
   align-items: center;
@@ -211,6 +245,10 @@ export default function GoogleReviews({
 }) {
   const hasReviews = reviews.length > 0;
   const hasRating = Number.isFinite(averageRating) && averageRating > 0 && totalReviewCount > 0;
+  const showMoreReviewsCard = reviews.length === 5;
+  const allReviewsLabel = Number.isInteger(totalReviewCount) && totalReviewCount > reviews.length
+    ? `Read all ${totalReviewCount} Google reviews`
+    : "Read all Google reviews";
 
   return (
     <ReviewsSection>
@@ -277,6 +315,18 @@ export default function GoogleReviews({
               </ReviewSourceLink>
             </ReviewCard>
           ))}
+          {showMoreReviewsCard && (
+            <MoreReviewsCard
+              as="a"
+              href={reviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h3>More stories from our guests</h3>
+              <p>Explore more fishing and bowfishing experiences with Captain John on Google Maps.</p>
+              <span>{allReviewsLabel} <span aria-hidden="true">→</span></span>
+            </MoreReviewsCard>
+          )}
         </ReviewsGrid>}
 
         {attributions.length > 0 && <ReviewNote>
@@ -287,13 +337,13 @@ export default function GoogleReviews({
           ))}
         </ReviewNote>}
 
-        <GoogleLink
+        {!showMoreReviewsCard && <GoogleLink
           href={reviewsUrl}
           target="_blank"
           rel="noopener noreferrer"
         >
           Read Guest Reviews on Google Maps
-        </GoogleLink>
+        </GoogleLink>}
       </Container>
     </ReviewsSection>
   );
