@@ -87,6 +87,10 @@ const NavList = styled.ul`
   list-style: none;
   gap: 2rem;
 
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    gap: 1rem;
+  }
+
   @media (max-width: ${theme.breakpoints.mobile}) {
     position: fixed;
     top: 0;
@@ -177,7 +181,7 @@ export default function Navigation() {
             </li>
             <li>
               <NavLink href="/rod-and-reel" onClick={closeMenu}>
-                Rod & Reel
+                Fishing Charters
               </NavLink>
             </li>
             <li>
